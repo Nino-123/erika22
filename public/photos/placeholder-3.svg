@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe3e8"/><stop offset="1" stop-color="#fff3ea"/></linearGradient>
+<filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="81"/></filter>
+<filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="23"/></filter>
+<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 0.35 0 0 0 0 0.2 0 0 0 0 0.25 0 0 0 0.18 0"/></filter>
+</defs>
+<rect width="100%" height="100%" fill="url(#bg)"/>
+<g filter="url(#blur)"><circle cx="540" cy="648" r="360" fill="#f4a9bf" opacity="0.85"/><circle cx="180" cy="720" r="270" fill="#fde0c8" opacity="0.85"/><circle cx="225" cy="270" r="378" fill="#ffffff" opacity="0.85"/><circle cx="648" cy="252" r="288" fill="#df6e92" opacity="0.85"/></g>
+<g filter="url(#soft)"><ellipse cx="360" cy="261" rx="89.28" ry="144" fill="#fff" opacity="0.55" transform="rotate(0 360 405)"/><ellipse cx="360" cy="261" rx="89.28" ry="144" fill="#fff" opacity="0.55" transform="rotate(51.4 360 405)"/><ellipse cx="360" cy="261" rx="89.28" ry="144" fill="#fff" opacity="0.55" transform="rotate(102.8 360 405)"/><ellipse cx="360" cy="261" rx="89.28" ry="144" fill="#fff" opacity="0.55" transform="rotate(154.2 360 405)"/><ellipse cx="360" cy="261" rx="89.28" ry="144" fill="#fff" opacity="0.55" transform="rotate(205.6 360 405)"/><ellipse cx="360" cy="261" rx="89.28" ry="144" fill="#fff" opacity="0.55" transform="rotate(257 360 405)"/><ellipse cx="360" cy="261" rx="89.28" ry="144" fill="#fff" opacity="0.55" transform="rotate(308.4 360 405)"/><circle cx="360" cy="405" r="50.4" fill="#f6d48f" opacity="0.7"/></g>
+<rect width="100%" height="100%" filter="url(#grain)"/>
+<text x="50%" y="738" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="59" fill="#8a4a60" opacity="0.8">your photo here</text>
+<text x="50%" y="792" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="23" letter-spacing="7.2" fill="#8a4a60" opacity="0.6">PLACEHOLDER 3</text>
+</svg>

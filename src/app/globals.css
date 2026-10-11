@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #fffaf5;
+  --color-cream: #fbf1e8;
+  --color-blush: #fbe3e8;
+  --color-blush-deep: #f7cdd7;
+  --color-petal: #f2a7bb;
+  --color-rose: #d4708c;
+  --color-rose-deep: #a9466a;
+  --color-peach: #f6c7b0;
+  --color-peach-soft: #fde6d8;
+  --color-sage: #9cae8c;
+  --color-sage-deep: #64795c;
+  --color-gold: #c19a5b;
+  --color-ink: #4a2c36;
+  --color-ink-soft: #77525d;
+
+  --ease-bloom: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-jost), system-ui, sans-serif;
+  --font-hand: var(--font-caveat), "Segoe Print", cursive;
+  --font-script: var(--font-pinyon), "Snell Roundhand", cursive;
+}
+
+:root {
+  color-scheme: light;
+  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.3  0 0 0 0 0.18  0 0 0 0 0.2  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+html {
+  background: var(--color-blush);
+  scroll-padding-top: 5rem;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background: var(--color-blush);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-weight: 350;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #f6c1cf;
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-rose);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ── Film grain over everything, like the reference photography ─────────── */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 90;
+  background-image: var(--grain);
+  opacity: 0.07;
+}
+
+/* ── Small spaced-out editorial labels ───────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+/* ── Dreamy blurred colour fields (cheap: gradients, no filter blur) ────── */
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(var(--dx, 30px), var(--dy, -20px), 0) scale(1.08); }
+}
+
+/* ── Flowers ─────────────────────────────────────────────────────────────── */
+@keyframes sway {
+  0%, 100% { transform: rotate(calc(var(--sway, 2.2deg) * -1)); }
+  50% { transform: rotate(var(--sway, 2.2deg)); }
+}
+
+.sway {
+  transform-origin: 50% 100%;
+  animation: sway var(--sway-duration, 6s) ease-in-out var(--sway-delay, 0s) infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.045); }
+}
+
+.breathe {
+  animation: breathe 3.2s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.08); }
+}
+
+/* ── Light particles in the finale ───────────────────────────────────────── */
+@keyframes float-up {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  15% { opacity: var(--o, 0.8); }
+  85% { opacity: var(--o, 0.8); }
+  100% { transform: translate3d(var(--x, 20px), -60vh, 0); opacity: 0; }
+}
+
+.particle {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #fffaf0 0%, rgba(255, 236, 200, 0.7) 40%, rgba(255, 220, 200, 0) 70%);
+  animation: float-up var(--d, 14s) linear var(--delay, 0s) infinite;
+  pointer-events: none;
+}
+
+/* ── Letter paper ────────────────────────────────────────────────────────── */
+.paper {
+  background-color: #fffaf3;
+  background-image:
+    radial-gradient(120% 80% at 0% 0%, rgba(251, 227, 232, 0.6), transparent 60%),
+    radial-gradient(100% 70% at 100% 100%, rgba(253, 230, 216, 0.7), transparent 55%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 30px 60px -30px rgba(122, 64, 84, 0.35),
+    0 10px 24px -12px rgba(122, 64, 84, 0.18);
+}
+
+/* faint paper fibre */
+.paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: var(--grain);
+  opacity: 0.09;
+  pointer-events: none;
+}
+
+@keyframes caret {
+  50% { opacity: 0; }
+}
+
+.caret {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.1em;
+  background: currentColor;
+  animation: caret 1s steps(1) infinite;
+}
+
+/* ── Respect reduced motion everywhere ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0s !important;
+  }
+  .particle {
+    display: none;
+  }
+}
