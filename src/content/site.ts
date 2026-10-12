@@ -138,21 +138,8 @@ export const site = {
   letter: {
     eyebrow: "Chapter III",
     title: "A Letter, From Me to You",
-    /** This first line is gently typed out when she reaches the letter. */
-    greeting: "My love,",
-    /**
-     * Each string is one paragraph. Replace these with your own words —
-     * add or remove paragraphs freely.
-     */
-    paragraphs: [
-      "Happy birthday. I wanted to give you something that couldn't fit in a box, so I made you a little garden instead — a place you can come back to whenever you want to remember how loved you are.",
-      "[Write about what she means to you here. A memory, a moment you think about often, the first time you knew. Your own words will mean more than anything I could write.]",
-      "[Write about what you admire in her — the small things and the big ones.]",
-      "[Write what you hope this new year brings her, and what you want to share with her in it.]",
-      "I hope today feels as gentle and as bright as you make every day feel for me.",
-    ],
-    closing: "With all my love, always,",
-    // Signature uses `from` above.
+    // The letter itself (all five pages, in English and Bahasa Indonesia)
+    // lives in src/content/letter.ts
   },
 
   // ── 5 · Birthday wishes from her favourite people ──────────────────────────
