@@ -65,7 +65,7 @@ export function MusicToggle() {
         onClick={toggle}
         aria-pressed={playing}
         aria-label={playing ? `Pause the music` : `Play music: ${title}`}
-        className="glass fixed right-4 bottom-4 z-[75] flex h-12 items-center gap-2.5 rounded-full pr-4 pl-3.5 text-sm text-white transition-colors duration-200 hover:bg-white/10 sm:right-6 sm:bottom-6"
+        className="glass fixed right-4 bottom-4 z-[75] flex h-12 items-center gap-2.5 rounded-full bg-night/60! pr-4 pl-3.5 text-sm text-white transition-colors duration-200 hover:bg-night/80! sm:right-6 sm:bottom-6"
       >
         {!touched && (
           <span aria-hidden className="absolute inset-0 animate-ping rounded-full border border-petal/40 [animation-duration:2.6s]" />

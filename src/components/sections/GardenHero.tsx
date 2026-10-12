@@ -26,6 +26,7 @@ const BED: BedFlower[] = [
 ];
 
 const CHAPTERS = [
+  { href: "#story", label: "Her Story" },
   { href: "#memories", label: "Our Memories" },
   { href: "#letter", label: "A Letter" },
   { href: "#wishes", label: "Wishes" },
@@ -77,8 +78,8 @@ export function GardenHero({ entered }: { entered: boolean }) {
         </motion.p>
 
         <motion.div className="mt-8 flex flex-col items-center gap-3 sm:flex-row" {...rise(1.3)}>
-          <a href="#memories" className="btn-light">
-            Our memories <ArrowUpRight className="h-4 w-4" aria-hidden />
+          <a href="#story" className="btn-light">
+            Begin her story <ArrowUpRight className="h-4 w-4" aria-hidden />
           </a>
           <a href="#letter" className="btn-glass">
             <Play className="h-3.5 w-3.5 fill-current" aria-hidden /> Read my letter
@@ -100,6 +101,7 @@ export function GardenHero({ entered }: { entered: boolean }) {
           {CHAPTERS.map((c, i) => (
             <motion.li
               key={c.href}
+              className={c.href === "#forever" ? "hidden sm:block" : undefined}
               initial={{ opacity: 0, y: reduced ? 0 : 6 }}
               animate={entered ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: reduced ? 0.01 : DUR.standard, delay: reduced ? 0 : 1.7 + i * STAGGER.standard, ease: EASE_OUT }}

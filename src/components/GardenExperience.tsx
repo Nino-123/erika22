@@ -6,6 +6,7 @@ import { PetalCanvas } from "@/components/flowers/PetalCanvas";
 import { Intro } from "@/components/sections/Intro";
 import { GardenHero } from "@/components/sections/GardenHero";
 import { Gallery } from "@/components/sections/Gallery";
+import { StoryChapter } from "@/components/story/StoryChapter";
 import { Letter } from "@/components/sections/Letter";
 import { Wishes } from "@/components/sections/Wishes";
 import { Finale } from "@/components/sections/Finale";
@@ -39,6 +40,7 @@ export function GardenExperience() {
 
       <main inert={!entered} aria-hidden={!entered}>
         <GardenHero entered={entered} />
+        <StoryChapter />
         <Gallery />
         <Letter />
         <Wishes />

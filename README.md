@@ -50,6 +50,19 @@ for `[` to find them all before you send her the link.
 JPG, PNG and WEBP all work; they're resized and optimised automatically. Add
 or remove photos and whole albums freely. Albums with no photos are hidden.
 
+### Chapter I — the story of her life
+
+Everything for the storybook lives in **`src/content/story.ts`**: the four
+stages (title, short line, narration), the 22nd-birthday message on the final
+page, and the line that leads into Our Memories. The narration is gentle
+placeholder text, so replace it with details that are truly hers.
+
+The four illustrations are pencil sketches drawn in code
+(`src/components/story/art.ts`) and draw themselves as she scrolls. To use real
+artwork instead (from an artist, or images you've made), put transparent PNGs
+in `public/story/` and set `image: "/story/baby.png"` on that stage. Use a
+4 : 5.2 canvas with her feet near the bottom so the pages line up.
+
 ### Music
 
 A glass **"play music"** button sits in the bottom-right corner, including on

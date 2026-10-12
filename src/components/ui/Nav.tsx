@@ -8,6 +8,7 @@ import { DUR, EASE_OUT, STAGGER } from "@/lib/motion";
 
 export const NAV_LINKS = [
   { id: "garden", label: "Garden" },
+  { id: "story", label: "Her Story" },
   { id: "memories", label: "Memories" },
   { id: "letter", label: "Letter" },
   { id: "forever", label: "Always" },
