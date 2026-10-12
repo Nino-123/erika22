@@ -5,11 +5,11 @@ import { Bloom, type BloomPalette } from "@/components/flowers/Bloom";
 import type { PublicWish } from "@/lib/wishes";
 
 const TINTS = [
-  { bg: "bg-[#fff8f5]", ring: "ring-[#f7cdd7]", palette: "blush" },
-  { bg: "bg-[#fdf0f2]", ring: "ring-[#f4c2cf]", palette: "rose" },
-  { bg: "bg-[#fff6ef]", ring: "ring-[#f6d3c0]", palette: "peach" },
-  { bg: "bg-[#fffbf6]", ring: "ring-[#efdcd0]", palette: "cream" },
-] as const satisfies readonly { bg: string; ring: string; palette: BloomPalette }[];
+  { glow: "rgba(244,182,198,0.16)", palette: "blush" },
+  { glow: "rgba(224,120,152,0.16)", palette: "rose" },
+  { glow: "rgba(246,199,176,0.14)", palette: "peach" },
+  { glow: "rgba(253,247,242,0.10)", palette: "cream" },
+] as const satisfies readonly { glow: string; palette: BloomPalette }[];
 
 function hash(s: string) {
   let h = 0;
@@ -27,30 +27,31 @@ export function WishCard({ wish, index }: { wish: PublicWish; index: number }) {
 
   return (
     <motion.article
-      className={`relative mb-6 break-inside-avoid rounded-[22px] ${tint.bg} p-6 pt-7 ring-1 ${tint.ring} shadow-[0_18px_40px_-28px_rgba(122,64,84,0.55)] sm:mb-7`}
+      className="glass relative mb-7 break-inside-avoid rounded-[22px] p-6 pt-8"
+      style={{ backgroundImage: `radial-gradient(120% 80% at 0% 0%, ${tint.glow}, transparent 60%), linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025))` }}
       initial={{ opacity: 0, y: reduced ? 0 : 24, scale: reduced ? 1 : 0.97 }}
       whileInView={{ opacity: 1, y: 0, scale: 1, rotate: tilt }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: reduced ? 0.01 : 0.9, delay: reduced ? 0 : (index % 3) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduced ? 0.01 : 0.9, delay: reduced ? 0 : (index % 3) * 0.1, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className="absolute -top-5 left-6 w-11 drop-shadow-sm">
-        <Bloom id={`wish-${wish.id}`} open palette={tint.palette} size="100%" duration={0.01} />
+        <Bloom id={`wish-${wish.id}`} open palette={tint.palette} size="100%" duration={0.01} className="glow-bloom" />
       </div>
 
-      <p className="text-[1.06rem] leading-relaxed whitespace-pre-line text-ink break-words">{wish.message}</p>
+      <p className="text-[1.06rem] leading-relaxed font-light whitespace-pre-line text-white/85 break-words">{wish.message}</p>
 
       {wish.memory && (
-        <p className="mt-4 border-l-2 border-petal/60 pl-3 font-hand text-xl leading-snug text-rose-deep/90 break-words">
+        <p className="mt-4 border-l-2 border-petal/50 pl-3 font-hand text-xl leading-snug text-petal/90 break-words">
           {wish.memory}
         </p>
       )}
 
       <footer className="mt-5 flex items-end justify-between gap-3">
         <div className="min-w-0">
-          <p className="font-serif text-[1.4rem] leading-tight text-rose-deep italic break-words">— {wish.name}</p>
-          {wish.relationship && <p className="eyebrow mt-1 text-ink-soft/80 break-words">{wish.relationship}</p>}
+          <p className="font-serif text-[1.5rem] leading-tight text-white italic break-words">— {wish.name}</p>
+          {wish.relationship && <p className="eyebrow mt-1 text-white/45 break-words">{wish.relationship}</p>}
         </div>
-        <time className="shrink-0 text-xs text-ink-soft/60" dateTime={wish.created_at}>
+        <time className="shrink-0 text-xs text-white/40" dateTime={wish.created_at}>
           {dateFormat.format(new Date(wish.created_at))}
         </time>
       </footer>

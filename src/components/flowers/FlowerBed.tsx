@@ -64,6 +64,7 @@ export function FlowerBed({
               delay={f.delay ?? i * 0.22}
               tilt={f.tilt}
               duration={2.4}
+              className="glow-bloom"
             />
           </div>
         </div>

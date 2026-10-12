@@ -101,7 +101,7 @@ export function Lightbox({
               initial={{ opacity: 0, scale: reduced ? 1 : 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: reduced ? 1 : 0.98 }}
-              transition={{ duration: reduced ? 0.01 : 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: reduced ? 0.01 : 0.4, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="rounded-sm bg-ivory p-2.5 pb-3 shadow-2xl sm:p-4">

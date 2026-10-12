@@ -117,7 +117,7 @@ export function Bloom({
   const p = PALETTES[palette];
   const head = 108;
   const viewBox = `${-head} ${-head} ${head * 2} ${head * 2 + stem}`;
-  const ease = "cubic-bezier(0.22, 1, 0.36, 1)";
+  const ease = "cubic-bezier(0.16, 1, 0.3, 1)";
 
   const petalStyle = (
     angle: number,

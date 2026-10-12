@@ -2,91 +2,113 @@
 
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { ChevronDown } from "lucide-react";
+import { ArrowUpRight, Play } from "lucide-react";
 import { site } from "@/content/site";
 import { FlowerBed, type BedFlower } from "@/components/flowers/FlowerBed";
-import { DreamyBackdrop } from "@/components/ui/DreamyBackdrop";
+import { BlurText } from "@/components/ui/BlurText";
+import { NightSky } from "@/components/ui/NightSky";
+import { DUR, EASE_OUT, STAGGER } from "@/lib/motion";
 
 const BED: BedFlower[] = [
-  { left: 6, size: "clamp(5rem, 13vw, 10rem)", stem: 260, palette: "peach", tilt: -12, desktopOnly: true },
-  { left: 15, size: "clamp(7rem, 15vw, 12rem)", stem: 400, palette: "blush", tilt: -6 },
-  { left: 33, size: "clamp(4.5rem, 10vw, 8rem)", stem: 190, palette: "cream", tilt: 8 },
-  { left: 68, size: "clamp(4.5rem, 10vw, 8rem)", stem: 230, palette: "rose", tilt: -8 },
-  { left: 86, size: "clamp(7rem, 15vw, 12rem)", stem: 360, palette: "blush", tilt: 6 },
-  { left: 95, size: "clamp(5rem, 12vw, 9rem)", stem: 240, palette: "peach", tilt: 12, desktopOnly: true },
+  { left: 4, size: "clamp(5rem, 11vw, 9rem)", stem: 300, palette: "peach", tilt: -12, desktopOnly: true },
+  { left: 12, size: "clamp(6rem, 13vw, 11rem)", stem: 420, palette: "blush", tilt: -6 },
+  { left: 24, size: "clamp(3.5rem, 8vw, 6.5rem)", stem: 200, palette: "cream", tilt: 8, desktopOnly: true },
+  { left: 33, size: "clamp(3rem, 6vw, 5rem)", stem: 120, palette: "rose", tilt: -4 },
+  { left: 68, size: "clamp(3rem, 6vw, 5rem)", stem: 140, palette: "cream", tilt: 6 },
+  { left: 77, size: "clamp(3.5rem, 8vw, 6.5rem)", stem: 230, palette: "rose", tilt: -8, desktopOnly: true },
+  { left: 88, size: "clamp(6rem, 13vw, 11rem)", stem: 380, palette: "blush", tilt: 6 },
+  { left: 96, size: "clamp(5rem, 11vw, 9rem)", stem: 280, palette: "peach", tilt: 12, desktopOnly: true },
+];
+
+const CHAPTERS = [
+  { href: "#memories", label: "Our Memories" },
+  { href: "#letter", label: "A Letter" },
+  { href: "#wishes", label: "Wishes" },
+  { href: "#forever", label: "Always" },
 ];
 
 export function GardenHero({ entered }: { entered: boolean }) {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const nameY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 120]);
-  const nameOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.2]);
-  const { garden, her, birthday } = site;
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 140]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const skyY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 60]);
+  const { garden, her } = site;
 
-  const fade = (delay: number) => ({
-    initial: { opacity: 0, y: reduced ? 0 : 18, filter: reduced ? "none" : "blur(10px)" },
-    animate: entered ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined,
-    transition: { duration: reduced ? 0.01 : 1.6, delay: reduced ? 0 : delay, ease: [0.22, 1, 0.36, 1] as const },
+  const rise = (delay: number) => ({
+    initial: { opacity: 0, y: reduced ? 0 : 16 },
+    animate: entered ? { opacity: 1, y: 0 } : undefined,
+    transition: { duration: reduced ? 0.01 : DUR.slow, delay: reduced ? 0 : delay, ease: EASE_OUT },
   });
 
   return (
     <section
       id="garden"
       ref={ref}
-      className="relative flex min-h-[100svh] flex-col items-center overflow-hidden bg-gradient-to-b from-[#fbd9e1] via-[#fbe3e8] to-[#fcece9] pt-28 pb-[42svh] sm:pb-[46svh]"
+      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-night px-5 pt-28 pb-[30svh]"
     >
-      <DreamyBackdrop
-        blobs={[
-          { color: "rgba(244,160,186,0.5)", top: "-15%", left: "-15%", size: "60vmax", duration: 24 },
-          { color: "rgba(255,226,206,0.75)", top: "30%", left: "45%", size: "55vmax", dx: "-30px" },
-          { color: "rgba(255,250,244,0.85)", top: "5%", left: "30%", size: "45vmax", dy: "30px" },
-          { color: "rgba(200,220,190,0.35)", top: "70%", left: "-10%", size: "45vmax", duration: 28 },
-        ]}
-      />
+      <motion.div style={{ y: skyY }} className="absolute inset-0">
+        <NightSky glowAt="50% 70%" />
+      </motion.div>
 
-      {/* side labels, like the editorial posters */}
-      <div aria-hidden className="eyebrow pointer-events-none absolute top-1/2 left-5 z-10 hidden -translate-y-1/2 -rotate-90 text-rose-deep/50 lg:block">
-        {birthday.dateLabel}
-      </div>
-      <div aria-hidden className="eyebrow pointer-events-none absolute top-1/2 right-5 z-10 hidden -translate-y-1/2 rotate-90 text-rose-deep/50 lg:block">
-        for you, always
-      </div>
-
-      <motion.div style={{ y: nameY, opacity: nameOpacity }} className="relative z-10 flex flex-col items-center px-6 text-center">
-        <motion.p className="eyebrow text-rose-deep" {...fade(0.3)}>
-          {garden.eyebrow}
-        </motion.p>
-        <motion.h1
-          className="mt-3 font-serif text-[clamp(4rem,17vw,10.5rem)] leading-[0.95] font-light tracking-[-0.02em] text-white drop-shadow-[0_4px_30px_rgba(169,70,106,0.35)]"
-          {...fade(0.5)}
-        >
+      <motion.div style={{ y: contentY, opacity: contentOpacity }} className="relative z-10 flex max-w-4xl flex-col items-center text-center">
+        <motion.span className="glass inline-flex items-center gap-2 rounded-full py-1 pr-4 pl-1 text-sm text-white/80" {...rise(0.3)}>
+          <span className="rounded-full bg-white px-2.5 py-0.5 text-xs font-medium text-night">{garden.eyebrow}</span>
           {her.name}
-        </motion.h1>
-        <motion.p
-          className="mt-5 font-serif text-2xl text-rose-deep italic sm:text-3xl"
-          {...fade(0.9)}
-        >
-          {garden.title}
-        </motion.p>
-        <motion.p
-          className="mt-5 max-w-md text-base leading-relaxed text-ink-soft text-pretty sm:text-[1.05rem]"
-          {...fade(1.2)}
-        >
+        </motion.span>
+
+        <BlurText
+          as="h1"
+          trigger="mount"
+          play={entered}
+          delay={0.5}
+          text={garden.title}
+          className="mt-7 font-serif text-[clamp(3.2rem,10vw,7.5rem)] leading-[0.98] tracking-[-0.015em] text-white italic text-balance drop-shadow-[0_0_40px_rgba(0,0,0,0.6)]"
+        />
+
+        <motion.p className="mt-6 max-w-xl text-base leading-relaxed font-light text-white/70 text-pretty sm:text-lg" {...rise(1.1)}>
           {garden.body}
         </motion.p>
+
+        <motion.div className="mt-8 flex flex-col items-center gap-3 sm:flex-row" {...rise(1.3)}>
+          <a href="#memories" className="btn-light">
+            Our memories <ArrowUpRight className="h-4 w-4" aria-hidden />
+          </a>
+          <a href="#letter" className="btn-glass">
+            <Play className="h-3.5 w-3.5 fill-current" aria-hidden /> Read my letter
+          </a>
+        </motion.div>
       </motion.div>
 
       {entered && <FlowerBed flowers={BED} idPrefix="hero" className="z-[6] h-full" />}
 
-      <motion.a
-        href="#memories"
-        className="eyebrow absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1 rounded-full px-4 py-2 text-rose-deep/80 hover:text-rose-deep"
-        {...fade(1.8)}
+      {/* chapter row — the "partners" strip from the reference */}
+      <motion.nav
+        aria-label="Chapters"
+        className="absolute inset-x-0 bottom-5 z-10 flex justify-center px-4"
+        initial={{ opacity: 0 }}
+        animate={entered ? { opacity: 1 } : undefined}
+        transition={{ duration: reduced ? 0.01 : DUR.slow, delay: reduced ? 0 : 1.6 }}
       >
-        {garden.scrollHint}
-        <ChevronDown aria-hidden className="h-4 w-4 animate-bounce" />
-      </motion.a>
+        <ul className="glass-soft flex max-w-full items-center overflow-x-auto rounded-full px-1.5 py-1 sm:gap-1 sm:px-2 sm:py-1.5 [scrollbar-width:none]">
+          {CHAPTERS.map((c, i) => (
+            <motion.li
+              key={c.href}
+              initial={{ opacity: 0, y: reduced ? 0 : 6 }}
+              animate={entered ? { opacity: 1, y: 0 } : undefined}
+              transition={{ duration: reduced ? 0.01 : DUR.standard, delay: reduced ? 0 : 1.7 + i * STAGGER.standard, ease: EASE_OUT }}
+            >
+              <a
+                href={c.href}
+                className="block rounded-full px-2.5 py-2 font-serif text-[0.95rem] whitespace-nowrap sm:px-3.5 sm:text-[1.05rem] text-white/60 italic transition-colors hover:bg-white/10 hover:text-white"
+              >
+                {c.label}
+              </a>
+            </motion.li>
+          ))}
+        </ul>
+      </motion.nav>
     </section>
   );
 }

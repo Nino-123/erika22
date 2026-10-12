@@ -39,7 +39,7 @@ export function MusicToggle() {
         onClick={toggle}
         aria-pressed={playing}
         aria-label={playing ? `Pause ${title}` : `Play ${title}`}
-        className="fixed right-4 bottom-4 z-[75] flex h-12 items-center gap-2 rounded-full bg-ivory/85 px-4 text-sm text-rose-deep shadow-[0_10px_30px_-12px_rgba(169,70,106,0.5)] ring-1 ring-blush-deep backdrop-blur transition hover:bg-white sm:right-6 sm:bottom-6"
+        className="glass fixed right-4 bottom-4 z-[75] flex h-12 items-center gap-2 rounded-full px-4 text-sm text-white transition hover:bg-white/10 sm:right-6 sm:bottom-6"
       >
         {playing ? <Pause className="h-4 w-4" aria-hidden /> : <Music2 className="h-4 w-4" aria-hidden />}
         <span className="hidden font-serif text-base italic sm:inline">{playing ? "pause" : title}</span>
@@ -48,7 +48,7 @@ export function MusicToggle() {
             {[0, 1, 2].map((i) => (
               <span
                 key={i}
-                className="w-[2px] animate-pulse rounded bg-rose"
+                className="w-[2px] animate-pulse rounded bg-petal"
                 style={{ height: `${6 + i * 3}px`, animationDelay: `${i * 0.2}s` }}
               />
             ))}

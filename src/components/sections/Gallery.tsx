@@ -33,12 +33,12 @@ export function Gallery() {
   return (
     <section
       id="memories"
-      className="relative overflow-hidden bg-gradient-to-b from-[#fcece9] via-[#fdf4ee] to-[#fbf1e8] px-5 pt-24 pb-24 sm:px-8 sm:pt-32"
+      className="relative overflow-hidden bg-night px-5 pt-24 pb-24 sm:px-8 sm:pt-32"
     >
       <DreamyBackdrop
         blobs={[
-          { color: "rgba(247,205,215,0.55)", top: "5%", left: "-20%", size: "50vmax" },
-          { color: "rgba(253,226,210,0.6)", top: "45%", left: "60%", size: "50vmax", dx: "-30px", duration: 26 },
+          { color: "rgba(169,70,106,0.22)", top: "5%", left: "-20%", size: "50vmax" },
+          { color: "rgba(246,199,176,0.10)", top: "45%", left: "60%", size: "50vmax", dx: "-30px", duration: 26 },
         ]}
       />
 
@@ -49,7 +49,7 @@ export function Gallery() {
           <div
             role="tablist"
             aria-label="Photo albums"
-            className="mx-auto mt-10 flex max-w-4xl snap-x gap-2 overflow-x-auto px-1 pb-2 [scrollbar-width:none] sm:flex-wrap sm:justify-center sm:overflow-visible"
+            className="glass mx-auto mt-10 flex w-fit max-w-full snap-x gap-1 overflow-x-auto rounded-full p-1.5 [scrollbar-width:none]"
           >
             {albums.map((a, i) => {
               const selected = i === active;
@@ -67,14 +67,14 @@ export function Gallery() {
                   tabIndex={selected ? 0 : -1}
                   onClick={() => setActive(i)}
                   onKeyDown={(e) => onTabKey(e, i)}
-                  className={`relative min-h-11 shrink-0 snap-start rounded-full px-5 py-2 font-serif text-[1.05rem] whitespace-nowrap transition-colors ${
-                    selected ? "text-ivory" : "text-rose-deep hover:bg-white/60"
+                  className={`relative min-h-10 shrink-0 snap-start rounded-full px-4 py-2 text-[0.92rem] font-medium whitespace-nowrap transition-colors duration-200 ${
+                    selected ? "text-night" : "text-white/65 hover:text-white"
                   }`}
                 >
                   {selected && (
                     <motion.span
                       layoutId="album-pill"
-                      className="absolute inset-0 rounded-full bg-rose shadow-[0_8px_20px_-10px_rgba(169,70,106,0.6)]"
+                      className="absolute inset-0 rounded-full bg-white shadow-[0_8px_30px_-10px_rgba(244,182,198,0.6)]"
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
                     />
                   )}
@@ -100,7 +100,7 @@ export function Gallery() {
               transition={{ duration: reduced ? 0.01 : 0.45 }}
             >
               {album.description && (
-                <p className="mx-auto mb-10 max-w-lg text-center font-hand text-2xl text-rose-deep/90">
+                <p className="mx-auto mb-12 max-w-lg text-center font-serif text-2xl text-white/60 italic">
                   {album.description}
                 </p>
               )}

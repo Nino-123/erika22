@@ -43,22 +43,22 @@ export function Polaroid({
       initial={{ opacity: 0, y: reduced ? 0 : 30, rotate: reduced ? tilt : tilt * 2 }}
       whileInView={{ opacity: 1, y: 0, rotate: tilt }}
       viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: reduced ? 0.01 : 1, delay: reduced ? 0 : (index % 3) * 0.12, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduced ? 0.01 : 1, delay: reduced ? 0 : (index % 3) * 0.12, ease: [0.16, 1, 0.3, 1] }}
     >
       <button
         type="button"
         onClick={onOpen}
         aria-label={`Open photo${photo.caption ? `: ${photo.caption}` : ""}`}
-        className="group relative block w-full cursor-zoom-in text-left transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-1.5 hover:rotate-[0.001deg] focus-visible:-translate-y-1.5"
+        className="group relative block w-full cursor-zoom-in text-left transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] hover:-translate-y-1.5 hover:rotate-[0.001deg] focus-visible:-translate-y-1.5"
       >
-        <figure className="relative rounded-[3px] bg-[#fffdf9] p-2.5 pb-3 shadow-[0_18px_40px_-20px_rgba(122,64,84,0.45),0_2px_6px_rgba(122,64,84,0.08)] transition-shadow duration-500 group-hover:shadow-[0_28px_50px_-20px_rgba(122,64,84,0.5)] sm:p-3.5 sm:pb-4">
+        <figure className="relative rounded-[3px] bg-[#fffdf9] p-2.5 pb-3 shadow-[0_30px_60px_-25px_rgba(0,0,0,0.9),0_0_40px_-12px_rgba(244,182,198,0.25)] transition-shadow duration-500 group-hover:shadow-[0_30px_60px_-25px_rgba(0,0,0,0.9),0_0_60px_-6px_rgba(244,182,198,0.45)] sm:p-3.5 sm:pb-4">
           <div className={`relative overflow-hidden rounded-[2px] bg-blush ${ASPECT[photo.aspect]}`}>
             <Image
               src={photo.src}
               alt={photo.alt}
               fill
               sizes="(max-width: 640px) 85vw, (max-width: 1024px) 45vw, 30vw"
-              className="object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.05]"
+              className="object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.05]"
               unoptimized={photo.src.endsWith(".svg")}
             />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#f7cdd7]/25 via-transparent to-[#fff6ea]/20 mix-blend-soft-light" />

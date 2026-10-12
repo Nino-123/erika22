@@ -27,12 +27,14 @@ type Petal = {
   color: [string, string];
 };
 
+type Firefly = { x: number; y: number; r: number; phase: number; speed: number; drift: number; vy: number };
+
 /**
- * Drifting petals drawn on a single <canvas> — one DOM node no matter how
+ * Drifting petals and glowing fireflies drawn on a single <canvas> — one DOM node no matter how
  * many petals, paused when the tab is hidden, and disabled entirely for
  * people who prefer reduced motion.
  */
-export function PetalCanvas({ count = 18 }: { count?: number }) {
+export function PetalCanvas({ count = 18, fireflies = 14 }: { count?: number; fireflies?: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduced = useReducedMotion();
 
@@ -80,6 +82,30 @@ export function PetalCanvas({ count = 18 }: { count?: number }) {
 
     const petals = Array.from({ length: n }, () => make(true));
 
+    const makeFly = (initial: boolean): Firefly => ({
+      x: Math.random() * w,
+      y: initial ? Math.random() * h : h + 10,
+      r: 1.2 + Math.random() * 2.2,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.6 + Math.random() * 1.2,
+      drift: 10 + Math.random() * 30,
+      vy: 6 + Math.random() * 14,
+    });
+    const flies = Array.from({ length: Math.round(fireflies * (small ? 0.6 : 1)) }, () => makeFly(true));
+
+    const drawFly = (f: Firefly) => {
+      const glow = 0.35 + 0.65 * Math.max(0, Math.sin(f.phase));
+      const x = f.x + Math.sin(f.phase * 0.5) * f.drift;
+      const g = ctx.createRadialGradient(x, f.y, 0, x, f.y, f.r * 7);
+      g.addColorStop(0, `rgba(255,244,214,${0.95 * glow})`);
+      g.addColorStop(0.25, `rgba(255,214,190,${0.45 * glow})`);
+      g.addColorStop(1, "rgba(255,200,210,0)");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(x, f.y, f.r * 7, 0, Math.PI * 2);
+      ctx.fill();
+    };
+
     const draw = (p: Petal) => {
       const s = p.size;
       ctx.save();
@@ -112,6 +138,13 @@ export function PetalCanvas({ count = 18 }: { count?: number }) {
         if (p.y > h + 40 || p.x < -80 || p.x > w + 80) Object.assign(p, make(false));
         draw(p);
       }
+      ctx.globalAlpha = 1;
+      for (const f of flies) {
+        f.phase += dt * f.speed;
+        f.y -= f.vy * dt;
+        if (f.y < -20) Object.assign(f, makeFly(false));
+        drawFly(f);
+      }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -131,7 +164,7 @@ export function PetalCanvas({ count = 18 }: { count?: number }) {
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [count, reduced]);
+  }, [count, fireflies, reduced]);
 
   return (
     <canvas

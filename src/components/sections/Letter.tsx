@@ -28,7 +28,7 @@ function TypedGreeting({ text, start, onDone }: { text: string; start: boolean; 
   }, [start, reduced, text, onDone]);
 
   return (
-    <p className="font-serif text-[2rem] leading-tight text-rose-deep italic sm:text-[2.5rem]">
+    <p className="font-serif text-[2.2rem] leading-tight text-rose-deep italic sm:text-[2.8rem]">
       <span className="sr-only">{text}</span>
       <span aria-hidden>
         {text.slice(0, shown)}
@@ -70,12 +70,12 @@ export function Letter() {
   return (
     <section
       id="letter"
-      className="relative overflow-hidden bg-gradient-to-b from-[#fbf1e8] via-[#fde8dc] to-[#fbe6e6] px-4 pt-24 pb-28 sm:px-8 sm:pt-32 sm:pb-36"
+      className="relative overflow-hidden bg-night px-4 pt-24 pb-28 sm:px-8 sm:pt-32 sm:pb-36"
     >
       <DreamyBackdrop
         blobs={[
-          { color: "rgba(246,199,176,0.55)", top: "10%", left: "55%", size: "55vmax" },
-          { color: "rgba(247,205,215,0.55)", top: "50%", left: "-25%", size: "55vmax", dx: "40px", duration: 24 },
+          { color: "rgba(246,199,176,0.13)", top: "20%", left: "40%", size: "55vmax" },
+          { color: "rgba(169,70,106,0.2)", top: "50%", left: "-25%", size: "55vmax", dx: "40px", duration: 24 },
         ]}
       />
 
@@ -88,11 +88,11 @@ export function Letter() {
           initial={{ opacity: 0, y: reduced ? 0 : 40, rotate: reduced ? 0 : -1.5 }}
           whileInView={{ opacity: 1, y: 0, rotate: 0 }}
           viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: reduced ? 0.01 : 1.4, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: reduced ? 0.01 : 1.4, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* a flower resting on the letter */}
           <div className="absolute -top-14 -right-3 z-10 w-24 rotate-12 sm:-top-16 sm:-right-10 sm:w-32">
-            <Bloom id="letter-bloom" open={inView} palette="rose" size="100%" delay={0.4} />
+            <Bloom id="letter-bloom" open={inView} palette="rose" size="100%" delay={0.4} className="glow-bloom" />
           </div>
 
           <article className="paper relative rounded-[6px] px-6 pt-12 pb-12 sm:px-14 sm:pt-16 sm:pb-16">
@@ -107,14 +107,14 @@ export function Letter() {
               <TypedGreeting text={letter.greeting} start={inView} onDone={finishTyping} />
             </div>
 
-            <div className="relative mt-6 space-y-5 font-serif text-[1.22rem] leading-[1.8] text-ink sm:text-[1.3rem]">
+            <div className="relative mt-6 space-y-5 font-serif text-[1.3rem] leading-[1.75] text-ink sm:text-[1.4rem]">
               {letter.paragraphs.map((p, i) => (
                 <motion.p
                   key={i}
                   className="text-pretty"
                   initial={{ opacity: 0, y: reduced ? 0 : 8 }}
                   animate={showBody ? { opacity: 1, y: 0 } : undefined}
-                  transition={{ duration: reduced ? 0.01 : 1.1, delay: reduced ? 0 : i * 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: reduced ? 0.01 : 1.1, delay: reduced ? 0 : i * 0.35, ease: [0.16, 1, 0.3, 1] }}
                 >
                   {p}
                 </motion.p>

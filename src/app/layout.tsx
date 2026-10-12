@@ -1,32 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Caveat, Cormorant_Garamond, Jost, Pinyon_Script } from "next/font/google";
+import { Barlow, Caveat, Instrument_Serif } from "next/font/google";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const serif = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const serif = Instrument_Serif({
+  variable: "--font-instrument",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: "400",
   style: ["normal", "italic"],
   display: "swap",
 });
 
-const sans = Jost({
-  variable: "--font-jost",
+const sans = Barlow({
+  variable: "--font-barlow",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
   display: "swap",
 });
 
 const hand = Caveat({
   variable: "--font-caveat",
   subsets: ["latin"],
-  display: "swap",
-});
-
-const script = Pinyon_Script({
-  variable: "--font-pinyon",
-  subsets: ["latin"],
-  weight: "400",
   display: "swap",
 });
 
@@ -43,7 +37,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#fbe3e8",
+  themeColor: "#060406",
   width: "device-width",
   initialScale: 1,
 };
@@ -52,7 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${serif.variable} ${sans.variable} ${hand.variable} ${script.variable} antialiased`}
+      className={`${serif.variable} ${sans.variable} ${hand.variable} antialiased`}
     >
       <body>
         {children}

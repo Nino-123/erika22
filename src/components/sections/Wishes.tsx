@@ -51,13 +51,13 @@ export function Wishes() {
   return (
     <section
       id="wishes"
-      className="relative overflow-hidden bg-gradient-to-b from-[#fbe6e6] via-[#fcefec] to-[#fbe1e6] px-4 pt-24 pb-28 sm:px-8 sm:pt-32"
+      className="relative overflow-hidden bg-night px-4 pt-24 pb-28 sm:px-8 sm:pt-32"
     >
       <DreamyBackdrop
         blobs={[
-          { color: "rgba(247,205,215,0.6)", top: "0%", left: "50%", size: "55vmax" },
-          { color: "rgba(214,228,200,0.4)", top: "40%", left: "-20%", size: "50vmax", dx: "40px", duration: 26 },
-          { color: "rgba(253,226,210,0.6)", top: "75%", left: "55%", size: "45vmax" },
+          { color: "rgba(169,70,106,0.2)", top: "0%", left: "50%", size: "55vmax" },
+          { color: "rgba(100,121,92,0.16)", top: "40%", left: "-20%", size: "50vmax", dx: "40px", duration: 26 },
+          { color: "rgba(246,199,176,0.08)", top: "75%", left: "55%", size: "45vmax" },
         ]}
       />
 
@@ -67,10 +67,10 @@ export function Wishes() {
         {/* Honest notice when the database isn't connected yet */}
         {unconfigured && (
           <Reveal className="mx-auto mt-10 max-w-xl">
-            <div role="status" className="flex gap-3 rounded-2xl border border-dashed border-rose/40 bg-white/70 p-5 text-sm leading-relaxed text-ink-soft">
-              <CloudOff className="mt-0.5 h-5 w-5 shrink-0 text-rose" aria-hidden />
+            <div role="status" className="glass-soft flex gap-3 rounded-2xl p-5 text-sm leading-relaxed text-white/70">
+              <CloudOff className="mt-0.5 h-5 w-5 shrink-0 text-petal" aria-hidden />
               <p>
-                <strong className="font-medium text-ink">Wishes aren&apos;t connected yet.</strong> This garden&apos;s
+                <strong className="font-medium text-white">Wishes aren&apos;t connected yet.</strong> This garden&apos;s
                 wish database hasn&apos;t been set up, so new wishes can&apos;t be saved right now. (Site owner: see
                 <em> “Set up birthday wishes”</em> in the README.)
               </p>
@@ -86,21 +86,21 @@ export function Wishes() {
                 initial={{ opacity: 0, y: reduced ? 0 : 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: reduced ? 0 : -10 }}
-                transition={{ duration: reduced ? 0.01 : 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="relative rounded-[28px] bg-ivory/90 p-6 text-left shadow-[0_30px_60px_-35px_rgba(122,64,84,0.55)] ring-1 ring-blush-deep backdrop-blur sm:p-10"
+                transition={{ duration: reduced ? 0.01 : 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="glass relative rounded-[28px] p-6 text-left sm:p-10"
               >
                 <button
                   type="button"
                   onClick={() => setFormOpen(false)}
                   aria-label="Close the wish form"
-                  className="absolute top-3 right-3 grid h-11 w-11 place-items-center rounded-full text-ink-soft transition hover:bg-blush"
+                  className="absolute top-3 right-3 grid h-11 w-11 place-items-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white"
                 >
                   <X className="h-5 w-5" aria-hidden />
                 </button>
-                <h3 className="pr-10 font-serif text-3xl text-ink">
+                <h3 className="pr-10 font-serif text-[2.2rem] leading-tight text-white italic">
                   A little wish for {her.name}
                 </h3>
-                <p className="mt-2 mb-7 text-ink-soft">
+                <p className="mt-2 mb-7 font-light text-white/60">
                   Your words will be planted in her garden for her to read on her birthday.
                 </p>
                 <WishForm disabled={unconfigured} onPlanted={onPlanted} />
@@ -115,7 +115,7 @@ export function Wishes() {
                 className="flex flex-col items-center"
               >
                 {planted && (
-                  <p role="status" className="mb-6 rounded-full bg-white/70 px-5 py-2.5 font-serif text-lg text-rose-deep italic">
+                  <p role="status" className="glass-soft mb-6 rounded-full px-5 py-2.5 font-serif text-lg text-white/90 italic">
                     {planted === "live"
                       ? "Your wish has been planted. Thank you 🌸"
                       : "Your wish has been planted — it will bloom here once it's been approved 🌸"}
@@ -125,7 +125,7 @@ export function Wishes() {
                   type="button"
                   onClick={() => setFormOpen(true)}
                   disabled={unconfigured}
-                  className="inline-flex min-h-12 items-center gap-2 rounded-full bg-rose px-8 py-3 font-serif text-lg text-ivory shadow-[0_14px_30px_-14px_rgba(169,70,106,0.8)] transition hover:bg-rose-deep disabled:cursor-not-allowed disabled:opacity-50"
+                  className="btn-light"
                 >
                   <Sprout className="h-5 w-5" aria-hidden />
                   {planted ? "Plant another wish" : copy.button}
@@ -139,30 +139,30 @@ export function Wishes() {
           {status === "loading" && (
             <div className="columns-1 gap-6 sm:columns-2 lg:columns-3" aria-label="Loading wishes">
               {[0, 1, 2].map((i) => (
-                <div key={i} className="mb-6 h-40 animate-pulse rounded-[22px] bg-white/50" />
+                <div key={i} className="mb-6 h-40 animate-pulse rounded-[22px] bg-white/5" />
               ))}
             </div>
           )}
 
           {status === "error" && (
-            <p className="text-center text-ink-soft">
+            <p className="text-center text-white/60">
               The wishes are hiding right now.{" "}
-              <button type="button" onClick={load} className="underline decoration-petal underline-offset-4 hover:text-rose-deep">
+              <button type="button" onClick={load} className="underline decoration-petal underline-offset-4 hover:text-white">
                 Try again
               </button>
             </p>
           )}
 
           {status === "ready" && wishes.length === 0 && (
-            <p className="text-center font-hand text-2xl text-rose-deep/80">{copy.empty}</p>
+            <p className="text-center font-serif text-2xl text-white/55 italic">{copy.empty}</p>
           )}
 
           {status === "ready" && wishes.length > 0 && (
             <>
-              <p className="eyebrow mb-10 text-center text-ink-soft">
+              <p className="eyebrow mb-10 text-center text-white/45">
                 {wishes.length} {wishes.length === 1 ? "wish" : "wishes"} planted so far
               </p>
-              <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 lg:gap-7">
+              <div className="columns-1 gap-6 pt-5 sm:columns-2 lg:columns-3 lg:gap-7">
                 {wishes.map((w, i) => (
                   <WishCard key={w.id} wish={w} index={i} />
                 ))}

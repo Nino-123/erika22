@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "./Reveal";
+import { BlurText } from "./BlurText";
 
 /** A delicate vine that draws itself in, with a few leaves and one bud. */
 export function Vine({ className = "" }: { className?: string }) {
@@ -21,7 +22,7 @@ export function Vine({ className = "" }: { className?: string }) {
     <svg viewBox="0 0 280 44" className={className} aria-hidden fill="none">
       <motion.path
         d="M8 22 C 50 6, 90 38, 140 22 S 230 6, 272 22"
-        stroke="#9cae8c"
+        stroke="#6f8466"
         strokeWidth={1.3}
         strokeLinecap="round"
         {...draw}
@@ -31,7 +32,7 @@ export function Vine({ className = "" }: { className?: string }) {
         <motion.path
           key={i}
           d={l.d}
-          fill="#b5c4a6"
+          fill="#7f9673"
           initial={{ opacity: reduced ? 0.9 : 0, scale: reduced ? 1 : 0.4 }}
           whileInView={{ opacity: 0.9, scale: 1 }}
           viewport={{ once: true, amount: 0.6 }}
@@ -52,31 +53,38 @@ export function Vine({ className = "" }: { className?: string }) {
   );
 }
 
+/** A small glass "pill" label, like the "New · Introducing…" badge in the hero. */
+export function GlassBadge({ children, tag }: { children: React.ReactNode; tag?: string }) {
+  return (
+    <span className="glass inline-flex items-center gap-2 rounded-full py-1 pr-4 pl-1 text-sm text-white/80">
+      {tag && <span className="rounded-full bg-white px-2.5 py-0.5 text-xs font-medium text-night">{tag}</span>}
+      <span className={tag ? "" : "pl-3"}>{children}</span>
+    </span>
+  );
+}
+
 export function SectionHeading({
   eyebrow,
   title,
   intro,
-  tone = "rose",
 }: {
   eyebrow: string;
   title: string;
   intro?: string;
-  tone?: "rose" | "sage";
 }) {
   return (
-    <div className="mx-auto max-w-2xl text-center">
+    <div className="mx-auto max-w-3xl text-center">
       <Reveal>
-        <p className={`eyebrow ${tone === "rose" ? "text-rose-deep" : "text-sage-deep"}`}>{eyebrow}</p>
+        <GlassBadge>{eyebrow}</GlassBadge>
       </Reveal>
-      <Reveal delay={0.1}>
-        <h2 className="mt-4 font-serif text-[2.6rem] leading-[1.05] font-light text-ink text-balance sm:text-6xl">
-          {title}
-        </h2>
-      </Reveal>
-      <Vine className="mx-auto mt-5 w-48 sm:w-60" />
+      <BlurText
+        text={title}
+        className="mt-6 font-serif text-[clamp(2.6rem,7vw,4.8rem)] leading-[1.02] tracking-[-0.01em] text-white italic text-balance"
+      />
+      <Vine className="mx-auto mt-5 w-44 opacity-80 sm:w-56" />
       {intro && (
         <Reveal delay={0.2}>
-          <p className="mx-auto mt-5 max-w-xl text-[1.05rem] leading-relaxed text-ink-soft text-pretty">
+          <p className="mx-auto mt-4 max-w-xl text-[1.05rem] leading-relaxed font-light text-white/65 text-pretty">
             {intro}
           </p>
         </Reveal>

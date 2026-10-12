@@ -8,7 +8,7 @@ import { LIMITS, validateWish, type PublicWish, type WishField } from "@/lib/wis
 type Errors = Partial<Record<WishField, string>>;
 
 const inputBase =
-  "w-full rounded-2xl border bg-white/80 px-4 py-3 text-base text-ink placeholder:text-ink-soft/45 shadow-[inset_0_1px_2px_rgba(122,64,84,0.06)] transition focus:border-rose focus:bg-white focus:outline-none focus:ring-4 focus:ring-petal/25";
+  "w-full rounded-2xl border bg-white/[0.04] px-4 py-3 text-base text-white placeholder:text-white/30 transition focus:border-petal/70 focus:bg-white/[0.07] focus:outline-none focus:ring-4 focus:ring-petal/15";
 
 function Field({
   id,
@@ -30,19 +30,19 @@ function Field({
   return (
     <div>
       <div className="mb-1.5 flex items-baseline justify-between gap-3">
-        <label htmlFor={id} className="font-serif text-lg text-ink">
+        <label htmlFor={id} className="font-serif text-xl text-white italic">
           {label}
-          {optional && <span className="ml-2 text-sm text-ink-soft/70 italic">optional</span>}
+          {optional && <span className="ml-2 font-sans text-xs text-white/40 not-italic">optional</span>}
         </label>
         {max !== undefined && count !== undefined && (
-          <span className={`text-xs tabular-nums ${count > max ? "text-rose-deep" : "text-ink-soft/60"}`} aria-hidden>
+          <span className={`text-xs tabular-nums ${count > max ? "text-petal" : "text-white/35"}`} aria-hidden>
             {count}/{max}
           </span>
         )}
       </div>
       {children}
       {error && (
-        <p id={`${id}-error`} className="mt-1.5 text-sm text-rose-deep" role="alert">
+        <p id={`${id}-error`} className="mt-1.5 text-sm text-petal" role="alert">
           {error}
         </p>
       )}
@@ -133,7 +133,7 @@ export function WishForm({
             onChange={set("name")}
             aria-invalid={!!errors.name}
             aria-describedby={describedBy("name")}
-            className={`${inputBase} ${errors.name ? "border-rose" : "border-blush-deep"}`}
+            className={`${inputBase} ${errors.name ? "border-rose" : "border-white/12"}`}
             placeholder="e.g. Aunt Maria"
             disabled={disabled}
           />
@@ -147,7 +147,7 @@ export function WishForm({
             onChange={set("relationship")}
             aria-invalid={!!errors.relationship}
             aria-describedby={describedBy("relationship")}
-            className={`${inputBase} ${errors.relationship ? "border-rose" : "border-blush-deep"}`}
+            className={`${inputBase} ${errors.relationship ? "border-rose" : "border-white/12"}`}
             placeholder="best friend, sister, colleague…"
             disabled={disabled}
           />
@@ -170,7 +170,7 @@ export function WishForm({
           onChange={set("message")}
           aria-invalid={!!errors.message}
           aria-describedby={describedBy("message")}
-          className={`${inputBase} resize-y leading-relaxed ${errors.message ? "border-rose" : "border-blush-deep"}`}
+          className={`${inputBase} resize-y leading-relaxed ${errors.message ? "border-rose" : "border-white/12"}`}
           placeholder="Write her something warm…"
           disabled={disabled}
         />
@@ -193,7 +193,7 @@ export function WishForm({
           onChange={set("memory")}
           aria-invalid={!!errors.memory}
           aria-describedby={describedBy("memory")}
-          className={`${inputBase} resize-y leading-relaxed ${errors.memory ? "border-rose" : "border-blush-deep"}`}
+          className={`${inputBase} resize-y leading-relaxed ${errors.memory ? "border-rose" : "border-white/12"}`}
           placeholder="That time we…"
           disabled={disabled}
         />
@@ -213,7 +213,7 @@ export function WishForm({
       </div>
 
       {formError && (
-        <p role="alert" className="rounded-2xl bg-rose/10 px-4 py-3 text-sm text-rose-deep">
+        <p role="alert" className="rounded-2xl bg-rose/15 px-4 py-3 text-sm text-petal">
           {formError}
         </p>
       )}
@@ -222,7 +222,7 @@ export function WishForm({
         type="submit"
         disabled={submitting || disabled}
         whileTap={reduced ? undefined : { scale: 0.97 }}
-        className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-rose px-8 py-3 font-serif text-lg text-ivory shadow-[0_14px_30px_-14px_rgba(169,70,106,0.8)] transition hover:bg-rose-deep disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        className="btn-light w-full sm:w-auto"
       >
         {submitting ? (
           <>
