@@ -176,15 +176,21 @@ export const site = {
     footer: "made with love, just for you",
   },
 
-  // ── Background music (optional) ────────────────────────────────────────────
+  // ── Background music ───────────────────────────────────────────────────────
   music: {
     /**
-     * Put an .mp3 file in /public/music/ and set its path here, e.g.
-     * "/music/our-song.mp3". Leave "" to hide the music button entirely.
-     * Music only ever starts when she taps the music button.
+     * By default the site plays "A Garden Lullaby" — an original music-box
+     * piece generated live in the browser (no file needed, no copyright).
+     *
+     * To use YOUR song instead: put an .mp3 in /public/music/ and set its
+     * path here, e.g. "/music/our-song.mp3". (Only use a song you have the
+     * right to share — it will be publicly downloadable from the site.)
      */
     src: "",
-    title: "our song",
+    /** Set to false (with src "") to hide the music button entirely. */
+    lullaby: true,
+    /** Shown on the music button. */
+    title: "a garden lullaby",
   },
 };
 

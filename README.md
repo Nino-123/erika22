@@ -50,11 +50,20 @@ for `[` to find them all before you send her the link.
 JPG, PNG and WEBP all work; they're resized and optimised automatically. Add
 or remove photos and whole albums freely. Albums with no photos are hidden.
 
-### Add music (optional)
+### Music
 
-Put an `.mp3` in `public/music/` and set `music.src` to e.g.
-`"/music/our-song.mp3"`. A small music button appears in the corner; music
-**only** starts when she taps it. Leave `src` as `""` to hide the button.
+A glass **"play music"** button sits in the bottom-right corner, including on
+the opening screen. Music only starts when she taps it.
+
+By default it plays **"A Garden Lullaby"**, an original music-box piece
+generated live in the browser (`src/lib/lullaby.ts`): a melody in F major over
+a warm pad and soft arpeggios, with a long reverb. There's no audio file and no
+copyright to worry about, and it plays even when an iPhone is on silent.
+
+To use **your own song** instead, put an `.mp3` in `public/music/` and set
+`music.src` to e.g. `"/music/our-song.mp3"` in `site.ts`. Only use a song you
+have the right to share, because anyone visiting can download it. To hide the
+button entirely, set `src: ""` and `lullaby: false`.
 
 ---
 

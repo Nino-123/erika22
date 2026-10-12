@@ -197,6 +197,11 @@ body {
   50% { opacity: 0.95; transform: scale(1.08); }
 }
 
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
 @keyframes twinkle {
   0%, 100% { opacity: 0.35; }
   50% { opacity: 0.9; }
