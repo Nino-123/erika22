@@ -77,7 +77,7 @@ function Cover({ t, onOpen, interactive }: { t: LetterContent; onOpen: () => voi
       <div aria-hidden className="pointer-events-none absolute inset-[4%] rounded-[4px] border border-[#b08a5a]/35" />
       <div className="relative flex h-full flex-col items-center justify-center px-[10cqw] text-center">
         <p className="eyebrow text-[#a3805a]/80" style={{ fontSize: "2.4cqw" }}>
-          Nº {site.birthday.dayNumber} · 22
+          ©Nok
         </p>
         <h3 className="mt-[4cqw] font-serif leading-[1.1] tracking-[0.06em] text-[#a8844f] uppercase" style={{ fontSize: "8.4cqw" }}>
           {t.cover.title}
@@ -498,9 +498,8 @@ export function LetterBook() {
               onClick={() => setLang(l)}
               aria-pressed={lang === l}
               aria-label={letterBook[l].langName}
-              className={`min-h-9 min-w-11 rounded-full px-3 font-medium tracking-wider transition-colors duration-200 ${
-                lang === l ? "bg-white text-night" : "text-white/65 hover:text-white"
-              }`}
+              className={`min-h-9 min-w-11 rounded-full px-3 font-medium tracking-wider transition-colors duration-200 ${lang === l ? "bg-white text-night" : "text-white/65 hover:text-white"
+                }`}
             >
               {l.toUpperCase()}
             </button>

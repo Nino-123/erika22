@@ -7,7 +7,7 @@ import { site } from "@/content/site";
 import { FlowerBed, type BedFlower } from "@/components/flowers/FlowerBed";
 import { BlurText } from "@/components/ui/BlurText";
 import { NightSky } from "@/components/ui/NightSky";
-import { DUR, EASE_OUT, STAGGER } from "@/lib/motion";
+import { DUR, EASE_OUT } from "@/lib/motion";
 
 const BED: BedFlower[] = [
   // far away — small, dim, soft focus
@@ -23,14 +23,6 @@ const BED: BedFlower[] = [
   // close to the viewer
   { left: 12, size: "clamp(7rem, 15vw, 12.5rem)", stem: 380, palette: "blush", species: "peony", tilt: -8, squash: 0.74, depth: 2 },
   { left: 88, size: "clamp(6.5rem, 14vw, 11.5rem)", stem: 330, palette: "rose", species: "rose", tilt: 9, squash: 0.7, depth: 2 },
-];
-
-const CHAPTERS = [
-  { href: "#story", label: "Her Story" },
-  { href: "#memories", label: "Our Memories" },
-  { href: "#letter", label: "A Letter" },
-  { href: "#wishes", label: "Wishes" },
-  { href: "#forever", label: "Always" },
 ];
 
 export function GardenHero({ entered }: { entered: boolean }) {
@@ -88,34 +80,6 @@ export function GardenHero({ entered }: { entered: boolean }) {
       </motion.div>
 
       {entered && <FlowerBed flowers={BED} idPrefix="hero" className="z-[6] h-full" />}
-
-      {/* chapter row — the "partners" strip from the reference */}
-      <motion.nav
-        aria-label="Chapters"
-        className="absolute inset-x-0 bottom-5 z-10 flex justify-center px-4"
-        initial={{ opacity: 0 }}
-        animate={entered ? { opacity: 1 } : undefined}
-        transition={{ duration: reduced ? 0.01 : DUR.slow, delay: reduced ? 0 : 1.6 }}
-      >
-        <ul className="glass-soft flex max-w-full items-center overflow-x-auto rounded-full px-1.5 py-1 sm:gap-1 sm:px-2 sm:py-1.5 [scrollbar-width:none]">
-          {CHAPTERS.map((c, i) => (
-            <motion.li
-              key={c.href}
-              className={c.href === "#forever" ? "hidden sm:block" : undefined}
-              initial={{ opacity: 0, y: reduced ? 0 : 6 }}
-              animate={entered ? { opacity: 1, y: 0 } : undefined}
-              transition={{ duration: reduced ? 0.01 : DUR.standard, delay: reduced ? 0 : 1.7 + i * STAGGER.standard, ease: EASE_OUT }}
-            >
-              <a
-                href={c.href}
-                className="block rounded-full px-2.5 py-2 font-serif text-[0.95rem] whitespace-nowrap sm:px-3.5 sm:text-[1.05rem] text-white/60 italic transition-colors hover:bg-white/10 hover:text-white"
-              >
-                {c.label}
-              </a>
-            </motion.li>
-          ))}
-        </ul>
-      </motion.nav>
     </section>
   );
 }
