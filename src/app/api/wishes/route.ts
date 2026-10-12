@@ -43,6 +43,21 @@ function clientIp(req: NextRequest) {
   );
 }
 
+/**
+ * A short, non-secret hint about what's wrong with the database setup, so the
+ * site owner can fix it by visiting /api/wishes. Never includes keys.
+ */
+function setupProblem(error: { code?: string; message?: string }) {
+  const msg = (error.message ?? "").toLowerCase();
+  if (error.code === "PGRST205" || error.code === "42P01" || msg.includes("does not exist") || msg.includes("schema cache"))
+    return { reason: "table_missing", fix: "Run supabase/schema.sql in the Supabase SQL Editor." };
+  if (msg.includes("api key") || msg.includes("jwt") || msg.includes("unauthorized") || msg.includes("permission denied"))
+    return { reason: "bad_key", fix: "SUPABASE_SECRET_KEY must be the project's secret (service_role) key, then redeploy." };
+  if (msg.includes("fetch failed") || msg.includes("enotfound") || msg.includes("network"))
+    return { reason: "unreachable", fix: "Check SUPABASE_URL (https://<project-ref>.supabase.co), then redeploy." };
+  return { reason: "unknown", fix: "Check the server logs for the [wishes] message." };
+}
+
 function hashIp(ip: string) {
   // Store only a salted hash, never the raw IP address.
   const salt = process.env.WISHES_IP_SALT || "her-garden";
@@ -63,8 +78,8 @@ export async function GET() {
     .limit(300);
 
   if (error) {
-    console.error("[wishes] read failed:", error.message);
-    return json({ configured: true, error: "Could not load wishes right now." }, 500);
+    console.error("[wishes] read failed:", error.code, error.message);
+    return json({ configured: true, error: "Could not load wishes right now.", ...setupProblem(error) }, 500);
   }
   return json({ configured: true, wishes: (data ?? []) as PublicWish[] });
 }

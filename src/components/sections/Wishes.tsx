@@ -26,7 +26,11 @@ export function Wishes() {
       const res = await fetch("/api/wishes", { cache: "no-store" });
       const data = await res.json();
       if (data.configured === false) return setStatus("unconfigured");
-      if (!res.ok) return setStatus("error");
+      if (!res.ok) {
+        // Helps the site owner diagnose setup problems from the browser console.
+        if (data.reason) console.warn(`[wishes] ${data.reason}: ${data.fix}`);
+        return setStatus("error");
+      }
       setWishes(data.wishes ?? []);
       setStatus("ready");
     } catch {
