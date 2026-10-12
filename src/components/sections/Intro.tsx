@@ -5,6 +5,7 @@ import { motion, useIsPresent, useReducedMotion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { site } from "@/content/site";
 import { Bloom } from "@/components/flowers/Bloom";
+import { burstPetals } from "@/components/flowers/PetalCanvas";
 import { BlurText } from "@/components/ui/BlurText";
 import { NightSky } from "@/components/ui/NightSky";
 import { DUR, EASE_IN, EASE_OUT } from "@/lib/motion";
@@ -37,7 +38,14 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
   const bloom = () => {
     if (stage !== "bud") return;
     setStage("blooming");
-    window.setTimeout(() => setStage("bloomed"), reduced ? 0 : 2600);
+    window.setTimeout(() => setStage("bloomed"), reduced ? 0 : 3000);
+    if (!reduced) {
+      // as the outer petals part, a few loose petals drift away
+      window.setTimeout(() => {
+        const r = budRef.current?.getBoundingClientRect();
+        if (r) burstPetals(r.left + r.width / 2, r.top + r.height * 0.45);
+      }, 900);
+    }
   };
 
   const opened = stage !== "bud";
@@ -87,6 +95,14 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
             className="absolute inset-[4%] rounded-full bg-[radial-gradient(circle,rgba(255,214,226,0.32)_0%,rgba(244,160,186,0.12)_40%,transparent_70%)]"
             style={{ animation: "glow-pulse 4s ease-in-out infinite" }}
           />
+          {/* a soft flare of light as it opens */}
+          <motion.span
+            aria-hidden
+            className="pointer-events-none absolute inset-[-20%] rounded-full bg-[radial-gradient(circle,rgba(255,228,236,0.55)_0%,rgba(244,170,192,0.22)_35%,transparent_68%)]"
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={opened && !reduced ? { opacity: [0, 0.9, 0.35], scale: [0.6, 1.15, 1] } : { opacity: 0, scale: 0.6 }}
+            transition={{ duration: 2.8, delay: 0.5, ease: EASE_OUT, times: [0, 0.4, 1] }}
+          />
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -97,15 +113,18 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
                 centre it while closed, then let it settle as it opens */}
             <motion.div
               initial={false}
-              animate={opened ? { scale: 1, y: "0%" } : { scale: 1.7, y: "22%" }}
+              animate={opened ? { scale: 1, y: "0%" } : { scale: 1.32, y: "16%" }}
               transition={{ duration: reduced ? 0.01 : 2.4, ease: EASE_OUT }}
             >
               <Bloom
                 id="intro-bloom"
                 open={opened}
                 palette="blush"
+                species="peony"
+                seed={14}
+                squash={0.9}
                 size="min(72vw, 21rem, 40svh)"
-                duration={2.6}
+                duration={3.2}
                 className="glow-bloom"
               />
             </motion.div>

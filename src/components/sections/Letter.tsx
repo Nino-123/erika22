@@ -92,7 +92,7 @@ export function Letter() {
         >
           {/* a flower resting on the letter */}
           <div className="absolute -top-14 -right-3 z-10 w-24 rotate-12 sm:-top-16 sm:-right-10 sm:w-32">
-            <Bloom id="letter-bloom" open={inView} palette="rose" size="100%" delay={0.4} className="glow-bloom" />
+            <Bloom id="letter-bloom" open={inView} palette="blush" species="rose" seed={21} squash={0.78} tilt={-8} size="100%" delay={0.4} duration={3} />
           </div>
 
           <article className="paper relative rounded-[6px] px-6 pt-12 pb-12 sm:px-14 sm:pt-16 sm:pb-16">

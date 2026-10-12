@@ -34,8 +34,17 @@ export function WishCard({ wish, index }: { wish: PublicWish; index: number }) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: reduced ? 0.01 : 0.9, delay: reduced ? 0 : (index % 3) * 0.1, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="absolute -top-5 left-6 w-11 drop-shadow-sm">
-        <Bloom id={`wish-${wish.id}`} open palette={tint.palette} size="100%" duration={0.01} className="glow-bloom" />
+      <div className="absolute -top-6 left-5 w-14">
+        <Bloom
+          id={`wish-${wish.id}`}
+          open
+          palette={tint.palette}
+          species={(["peony", "rose", "anemone"] as const)[h % 3]}
+          squash={0.85}
+          detail="low"
+          size="100%"
+          duration={0.01}
+        />
       </div>
 
       <p className="text-[1.06rem] leading-relaxed font-light whitespace-pre-line text-white/85 break-words">{wish.message}</p>

@@ -10,14 +10,19 @@ import { NightSky } from "@/components/ui/NightSky";
 import { DUR, EASE_OUT, STAGGER } from "@/lib/motion";
 
 const BED: BedFlower[] = [
-  { left: 4, size: "clamp(5rem, 11vw, 9rem)", stem: 300, palette: "peach", tilt: -12, desktopOnly: true },
-  { left: 12, size: "clamp(6rem, 13vw, 11rem)", stem: 420, palette: "blush", tilt: -6 },
-  { left: 24, size: "clamp(3.5rem, 8vw, 6.5rem)", stem: 200, palette: "cream", tilt: 8, desktopOnly: true },
-  { left: 33, size: "clamp(3rem, 6vw, 5rem)", stem: 120, palette: "rose", tilt: -4 },
-  { left: 68, size: "clamp(3rem, 6vw, 5rem)", stem: 140, palette: "cream", tilt: 6 },
-  { left: 77, size: "clamp(3.5rem, 8vw, 6.5rem)", stem: 230, palette: "rose", tilt: -8, desktopOnly: true },
-  { left: 88, size: "clamp(6rem, 13vw, 11rem)", stem: 380, palette: "blush", tilt: 6 },
-  { left: 96, size: "clamp(5rem, 11vw, 9rem)", stem: 280, palette: "peach", tilt: 12, desktopOnly: true },
+  // far away — small, dim, soft focus
+  { left: 22, size: "clamp(3rem, 6vw, 5rem)", stem: 130, palette: "cream", species: "anemone", tilt: -10, squash: 0.65, depth: 0, desktopOnly: true },
+  { left: 31, size: "clamp(2.6rem, 5vw, 4.2rem)", stem: 90, palette: "blush", species: "rose", tilt: 8, squash: 0.7, maxOpen: 0.3, depth: 0 },
+  { left: 69, size: "clamp(2.8rem, 5.5vw, 4.6rem)", stem: 110, palette: "peach", species: "anemone", tilt: -6, squash: 0.62, depth: 0 },
+  { left: 79, size: "clamp(3rem, 6vw, 5rem)", stem: 150, palette: "blush", species: "peony", tilt: 12, squash: 0.7, depth: 0, desktopOnly: true },
+  // middle distance, including buds that haven't opened yet
+  { left: 4, size: "clamp(5rem, 10vw, 8.5rem)", stem: 240, palette: "peach", species: "rose", tilt: -16, squash: 0.72, depth: 1, desktopOnly: true },
+  { left: 25, size: "clamp(3.4rem, 7vw, 5.6rem)", stem: 210, palette: "rose", species: "peony", tilt: -4, squash: 0.8, maxOpen: 0.22, depth: 1 },
+  { left: 75, size: "clamp(3.4rem, 7vw, 5.6rem)", stem: 240, palette: "blush", species: "rose", tilt: 6, squash: 0.8, maxOpen: 0.3, depth: 1, desktopOnly: true },
+  { left: 96, size: "clamp(5rem, 10vw, 8.5rem)", stem: 260, palette: "cream", species: "peony", tilt: 14, squash: 0.7, depth: 1, desktopOnly: true },
+  // close to the viewer
+  { left: 12, size: "clamp(7rem, 15vw, 12.5rem)", stem: 380, palette: "blush", species: "peony", tilt: -8, squash: 0.74, depth: 2 },
+  { left: 88, size: "clamp(6.5rem, 14vw, 11.5rem)", stem: 330, palette: "rose", species: "rose", tilt: 9, squash: 0.7, depth: 2 },
 ];
 
 const CHAPTERS = [

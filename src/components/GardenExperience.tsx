@@ -31,7 +31,7 @@ export function GardenExperience() {
 
   return (
     <>
-      <PetalCanvas count={entered ? 16 : 8} fireflies={entered ? 16 : 10} />
+      <PetalCanvas count={entered ? 16 : 8} fireflies={entered ? 16 : 10} above={!entered} />
 
       <AnimatePresence>{!entered && <Intro key="intro" onEnter={() => setEntered(true)} />}</AnimatePresence>
 

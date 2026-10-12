@@ -9,16 +9,20 @@ import { Reveal } from "@/components/ui/Reveal";
 import { GlassBadge } from "@/components/ui/SectionHeading";
 
 const FIELD: BedFlower[] = [
-  { left: 3, size: "clamp(3.5rem, 9vw, 7rem)", stem: 150, palette: "peach", tilt: -14, desktopOnly: true },
-  { left: 10, size: "clamp(4.5rem, 12vw, 9.5rem)", stem: 260, palette: "blush", tilt: -8 },
-  { left: 21, size: "clamp(3.5rem, 8vw, 6.5rem)", stem: 120, palette: "cream", tilt: 6, desktopOnly: true },
-  { left: 31, size: "clamp(4rem, 10vw, 8rem)", stem: 190, palette: "rose", tilt: -4 },
-  { left: 43, size: "clamp(3rem, 7vw, 5.5rem)", stem: 90, palette: "peach", tilt: 10, desktopOnly: true },
-  { left: 52, size: "clamp(3.5rem, 8vw, 6.5rem)", stem: 110, palette: "blush", tilt: -6 },
-  { left: 63, size: "clamp(3rem, 7vw, 5.5rem)", stem: 95, palette: "cream", tilt: 8, desktopOnly: true },
-  { left: 71, size: "clamp(4rem, 10vw, 8rem)", stem: 200, palette: "peach", tilt: 4 },
-  { left: 81, size: "clamp(3.5rem, 8vw, 6.5rem)", stem: 130, palette: "rose", tilt: -10, desktopOnly: true },
-  { left: 91, size: "clamp(4.5rem, 12vw, 9.5rem)", stem: 250, palette: "blush", tilt: 10 },
+  // far
+  { left: 18, size: "clamp(2.6rem, 5vw, 4rem)", stem: 70, palette: "cream", species: "anemone", tilt: -8, squash: 0.62, depth: 0 },
+  { left: 37, size: "clamp(2.4rem, 4.5vw, 3.6rem)", stem: 50, palette: "blush", species: "rose", tilt: 6, squash: 0.65, maxOpen: 0.3, depth: 0, desktopOnly: true },
+  { left: 58, size: "clamp(2.6rem, 5vw, 4rem)", stem: 60, palette: "peach", species: "peony", tilt: -4, squash: 0.6, depth: 0 },
+  { left: 77, size: "clamp(2.6rem, 5vw, 4rem)", stem: 80, palette: "cream", species: "anemone", tilt: 10, squash: 0.66, depth: 0, desktopOnly: true },
+  // middle
+  { left: 4, size: "clamp(3.8rem, 8vw, 6.5rem)", stem: 150, palette: "peach", species: "anemone", tilt: -14, squash: 0.7, depth: 1, desktopOnly: true },
+  { left: 28, size: "clamp(3.8rem, 8vw, 6.5rem)", stem: 170, palette: "rose", species: "rose", tilt: -5, squash: 0.74, depth: 1 },
+  { left: 46, size: "clamp(3rem, 6vw, 4.8rem)", stem: 120, palette: "blush", species: "peony", tilt: 4, squash: 0.8, maxOpen: 0.25, depth: 1, desktopOnly: true },
+  { left: 66, size: "clamp(3.8rem, 8vw, 6.5rem)", stem: 160, palette: "cream", species: "peony", tilt: 7, squash: 0.7, depth: 1 },
+  { left: 84, size: "clamp(3rem, 6vw, 4.8rem)", stem: 140, palette: "peach", species: "rose", tilt: 12, squash: 0.76, maxOpen: 0.3, depth: 1 },
+  // near
+  { left: 11, size: "clamp(5.5rem, 12vw, 10rem)", stem: 270, palette: "blush", species: "peony", tilt: -9, squash: 0.72, depth: 2 },
+  { left: 92, size: "clamp(5.5rem, 12vw, 10rem)", stem: 250, palette: "blush", species: "rose", tilt: 10, squash: 0.7, depth: 2 },
 ];
 
 export function Finale({ onReplay }: { onReplay: () => void }) {
