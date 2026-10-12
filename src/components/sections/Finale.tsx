@@ -31,7 +31,7 @@ export function Finale({ onReplay }: { onReplay: () => void }) {
   return (
     <section id="forever" className="relative flex min-h-[100svh] flex-col overflow-hidden bg-night">
       {/* rose dusk on the horizon */}
-      <NightSky glowAt="50% 100%" glow="rgba(240,150,170,0.42)" />
+      <NightSky glowAt="50% 100%" glow="rgba(240,150,170,0.42)" className="fade-top" />
       <div
         aria-hidden
         className="pointer-events-none absolute bottom-[-35%] left-1/2 h-[80vmax] w-[110vmax] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(255,214,190,0.32),rgba(224,120,152,0.16)_45%,transparent)]"

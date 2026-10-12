@@ -229,6 +229,34 @@ body {
   pointer-events: none;
 }
 
+/* a single leaf of the letter book: warm ivory with a faint grain */
+.leaf-paper {
+  background-color: #fbf5ec;
+  background-image:
+    radial-gradient(120% 70% at 100% 0%, rgba(251, 227, 232, 0.55), transparent 60%),
+    radial-gradient(90% 60% at 0% 100%, rgba(253, 232, 220, 0.6), transparent 60%);
+}
+.leaf-paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: var(--grain-dark);
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+/* soften the top and bottom of section backdrops so chapters blend together */
+.fade-edges {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
+}
+
+.fade-top {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 18%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 18%);
+}
+
 @keyframes caret {
   50% { opacity: 0; }
 }

@@ -12,6 +12,7 @@ import { Wishes } from "@/components/sections/Wishes";
 import { Finale } from "@/components/sections/Finale";
 import { Nav } from "@/components/ui/Nav";
 import { MusicToggle } from "@/components/ui/MusicToggle";
+import { FloralSeam } from "@/components/ui/FloralSeam";
 
 export function GardenExperience() {
   const [entered, setEntered] = useState(false);
@@ -41,9 +42,13 @@ export function GardenExperience() {
       <main inert={!entered} aria-hidden={!entered}>
         <GardenHero entered={entered} />
         <StoryChapter />
+        <FloralSeam variant="foliage" />
         <Gallery />
+        <FloralSeam variant="petals" />
         <Letter />
+        <FloralSeam variant="roses" />
         <Wishes />
+        <FloralSeam variant="glow" glow="rgba(240,160,180,0.16)" />
         <Finale onReplay={replay} />
       </main>
 

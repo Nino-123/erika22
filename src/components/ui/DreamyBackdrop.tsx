@@ -17,7 +17,7 @@ type Blob = {
  */
 export function DreamyBackdrop({ blobs, className = "" }: { blobs: Blob[]; className?: string }) {
   return (
-    <div aria-hidden className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
+    <div aria-hidden className={`fade-edges pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
       {blobs.map((b, i) => (
         <span
           key={i}

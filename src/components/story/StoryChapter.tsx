@@ -274,7 +274,7 @@ function Bridge() {
 export function StoryChapter() {
   return (
     <section id="story" className="relative bg-night">
-      <NightSky glowAt="50% 0%" glow="rgba(244,170,192,0.12)" grass={false} />
+      <NightSky glowAt="50% 12%" glow="rgba(244,170,192,0.1)" grass={false} className="fade-edges" />
       <div className="relative z-10 px-5 pt-24 pb-6 sm:pt-32">
         <SectionHeading eyebrow={story.eyebrow} title={story.title} intro={story.intro} />
       </div>
