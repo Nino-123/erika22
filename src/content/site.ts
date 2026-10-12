@@ -40,9 +40,9 @@ export const site = {
   // ── Who this is for ────────────────────────────────────────────────────────
   her: {
     /** Shown large on the main page and in the final message. */
-    name: "[Her Name]",
+    name: "Putri Najma Erika Adli",
     /** A softer word used in a few places, e.g. "my love", "sunshine". */
-    nickname: "my love",
+    nickname: "Princess",
   },
 
   /** Your name, used to sign the letter. */
@@ -65,9 +65,9 @@ export const site = {
   intro: {
     eyebrow: "October 14 · for you",
     tapHint: "tap the little bud",
-    bloomMessage: "Happy Birthday, My Love",
+    bloomMessage: "Happy Birthday, Erika!",
     subtitle:
-      "I planted a little garden for you. Every flower in it is something I love about you.",
+      "We planted a little garden for you. Every flower in it is something We love about you.",
     button: "Enter Your Garden",
   },
 
@@ -186,11 +186,11 @@ export const site = {
      * path here, e.g. "/music/our-song.mp3". (Only use a song you have the
      * right to share — it will be publicly downloadable from the site.)
      */
-    src: "",
+    src: "/music/Semua Aku Dirayakan - Nadin Amizah Instrumental.mp3",
     /** Set to false (with src "") to hide the music button entirely. */
     lullaby: true,
     /** Shown on the music button. */
-    title: "a garden lullaby",
+    title: "Nadin Amizah - Semua Aku Dirayakan (Instrumental)",
   },
 };
 
