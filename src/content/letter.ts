@@ -101,7 +101,7 @@ export const letterBook: Record<Lang, LetterContent> = {
         quote: "you are someone worth celebrating",
       },
     ],
-    closing: "With all my love, always. ♡",
+    closing: "With all the love, always. ♡",
     ui: {
       prev: "Previous page",
       next: "Next page",

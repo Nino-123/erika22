@@ -4,12 +4,10 @@
  * browser).
  */
 
-export const LIMITS = {
-  name: 60,
-  relationship: 60,
-  message: 1000,
-  memory: 300,
-} as const;
+import { wishesCopy, type WishError } from "@/content/wishes";
+import { LIMITS } from "@/lib/wish-limits";
+
+export { LIMITS };
 
 export const MIN_MESSAGE = 2;
 
@@ -49,7 +47,7 @@ const LINK = /(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|net|org|ru|xyz|top|info|biz|
 
 export type ValidationResult =
   | { ok: true; value: WishInput }
-  | { ok: false; errors: Partial<Record<WishField, string>> };
+  | { ok: false; errors: Partial<Record<WishField, string>>; codes: Partial<Record<WishField, WishError>> };
 
 export function validateWish(raw: Partial<Record<WishField, unknown>>): ValidationResult {
   const value: WishInput = {
@@ -58,22 +56,24 @@ export function validateWish(raw: Partial<Record<WishField, unknown>>): Validati
     message: clean(raw.message, true),
     memory: clean(raw.memory, true),
   };
-  const errors: Partial<Record<WishField, string>> = {};
+  const codes: Partial<Record<WishField, WishError>> = {};
 
-  if (!value.name) errors.name = "Please tell her who this is from.";
-  else if (value.name.length > LIMITS.name) errors.name = `Please keep your name under ${LIMITS.name} characters.`;
+  if (!value.name) codes.name = "nameMissing";
+  else if (value.name.length > LIMITS.name) codes.name = "nameLong";
 
-  if (value.relationship.length > LIMITS.relationship)
-    errors.relationship = `Please keep this under ${LIMITS.relationship} characters.`;
+  if (value.relationship.length > LIMITS.relationship) codes.relationship = "relationshipLong";
 
-  if (value.message.length < MIN_MESSAGE) errors.message = "Please write her a little message.";
-  else if (value.message.length > LIMITS.message)
-    errors.message = `Please keep your message under ${LIMITS.message} characters.`;
+  if (value.message.length < MIN_MESSAGE) codes.message = "messageMissing";
+  else if (value.message.length > LIMITS.message) codes.message = "messageLong";
 
-  if (value.memory.length > LIMITS.memory) errors.memory = `Please keep this under ${LIMITS.memory} characters.`;
+  if (value.memory.length > LIMITS.memory) codes.memory = "memoryLong";
 
   const links = `${value.name} ${value.message} ${value.memory}`.match(LINK)?.length ?? 0;
-  if (links > 0) errors.message = errors.message ?? "Links can't be included in wishes — just your words, please.";
+  if (links > 0) codes.message = codes.message ?? "links";
 
-  return Object.keys(errors).length ? { ok: false, errors } : { ok: true, value };
+  // English messages for the API; the form shows them in the visitor's language via `codes`
+  const errors: Partial<Record<WishField, string>> = {};
+  for (const [field, code] of Object.entries(codes) as [WishField, WishError][]) errors[field] = wishesCopy.en.errors[code];
+
+  return Object.keys(codes).length ? { ok: false, errors, codes } : { ok: true, value };
 }

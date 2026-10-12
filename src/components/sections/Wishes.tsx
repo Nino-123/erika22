@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { CloudOff, Sprout, X } from "lucide-react";
 import { site } from "@/content/site";
+import { wishesCopy } from "@/content/wishes";
+import type { Lang } from "@/content/letter";
 import type { PublicWish } from "@/lib/wishes";
 import { WishCard } from "@/components/wishes/WishCard";
 import { WishForm } from "@/components/wishes/WishForm";
@@ -14,8 +16,10 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 type Status = "loading" | "ready" | "unconfigured" | "error";
 
 export function Wishes() {
-  const { wishes: copy, her } = site;
+  const { her } = site;
   const reduced = useReducedMotion();
+  const [lang, setLang] = useState<Lang>("en");
+  const copy = wishesCopy[lang];
   const [status, setStatus] = useState<Status>("loading");
   const [wishes, setWishes] = useState<PublicWish[]>([]);
   const [formOpen, setFormOpen] = useState(false);
@@ -66,7 +70,30 @@ export function Wishes() {
       />
 
       <div className="relative z-10 mx-auto max-w-6xl">
-        <SectionHeading eyebrow={copy.eyebrow} title={copy.title} intro={copy.intro} />
+        {/* language toggle */}
+        <div className="mb-8 flex justify-center">
+          <div role="group" aria-label={copy.language} className="glass flex items-center rounded-full p-1 text-sm">
+            {(["en", "id"] as const).map((l) => (
+              <button
+                key={l}
+                type="button"
+                lang={l}
+                onClick={() => setLang(l)}
+                aria-pressed={lang === l}
+                aria-label={l === "en" ? "English" : "Bahasa Indonesia"}
+                className={`min-h-9 min-w-11 rounded-full px-3 font-medium tracking-wider transition-colors duration-200 ${
+                  lang === l ? "bg-white text-night" : "text-white/65 hover:text-white"
+                }`}
+              >
+                {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div lang={lang}>
+          <SectionHeading key={lang} eyebrow={copy.eyebrow} title={copy.title} intro={copy.intro} />
+        </div>
 
         {/* Honest notice when the database isn't connected yet */}
         {unconfigured && (
@@ -74,15 +101,13 @@ export function Wishes() {
             <div role="status" className="glass-soft flex gap-3 rounded-2xl p-5 text-sm leading-relaxed text-white/70">
               <CloudOff className="mt-0.5 h-5 w-5 shrink-0 text-petal" aria-hidden />
               <p>
-                <strong className="font-medium text-white">Wishes aren&apos;t connected yet.</strong> This garden&apos;s
-                wish database hasn&apos;t been set up, so new wishes can&apos;t be saved right now. (Site owner: see
-                <em> “Set up birthday wishes”</em> in the README.)
+                <strong className="font-medium text-white">{copy.unconfiguredTitle}</strong> {copy.unconfiguredBody}
               </p>
             </div>
           </Reveal>
         )}
 
-        <div className="relative mx-auto mt-10 max-w-2xl text-center">
+        <div lang={lang} className="relative mx-auto mt-10 max-w-2xl text-center">
           <AnimatePresence mode="popLayout" initial={false}>
             {formOpen ? (
               <motion.div
@@ -96,18 +121,18 @@ export function Wishes() {
                 <button
                   type="button"
                   onClick={() => setFormOpen(false)}
-                  aria-label="Close the wish form"
+                  aria-label={copy.form.close}
                   className="absolute top-3 right-3 grid h-11 w-11 place-items-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white"
                 >
                   <X className="h-5 w-5" aria-hidden />
                 </button>
                 <h3 className="pr-10 font-serif text-[2.2rem] leading-tight text-white italic">
-                  A little wish for {her.name}
+                  {copy.form.title(her.name)}
                 </h3>
                 <p className="mt-2 mb-7 font-light text-white/60">
-                  Your words will be planted in her garden for her to read on her birthday.
+                  {copy.form.subtitle}
                 </p>
-                <WishForm disabled={unconfigured} onPlanted={onPlanted} />
+                <WishForm copy={copy} disabled={unconfigured} onPlanted={onPlanted} />
               </motion.div>
             ) : (
               <motion.div
@@ -120,9 +145,7 @@ export function Wishes() {
               >
                 {planted && (
                   <p role="status" className="glass-soft mb-6 rounded-full px-5 py-2.5 font-serif text-lg text-white/90 italic">
-                    {planted === "live"
-                      ? "Your wish has been planted. Thank you 🌸"
-                      : "Your wish has been planted — it will bloom here once it's been approved 🌸"}
+                    {planted === "live" ? copy.plantedLive : copy.plantedPending}
                   </p>
                 )}
                 <button
@@ -132,7 +155,7 @@ export function Wishes() {
                   className="btn-light"
                 >
                   <Sprout className="h-5 w-5" aria-hidden />
-                  {planted ? "Plant another wish" : copy.button}
+                  {planted ? copy.buttonAgain : copy.button}
                 </button>
               </motion.div>
             )}
@@ -141,7 +164,7 @@ export function Wishes() {
 
         <div className="mt-16" aria-live="polite">
           {status === "loading" && (
-            <div className="columns-1 gap-6 sm:columns-2 lg:columns-3" aria-label="Loading wishes">
+            <div className="columns-1 gap-6 sm:columns-2 lg:columns-3" aria-label={copy.loading}>
               {[0, 1, 2].map((i) => (
                 <div key={i} className="mb-6 h-40 animate-pulse rounded-[22px] bg-white/5" />
               ))}
@@ -150,9 +173,9 @@ export function Wishes() {
 
           {status === "error" && (
             <p className="text-center text-white/60">
-              The wishes are hiding right now.{" "}
+              {copy.loadError}{" "}
               <button type="button" onClick={load} className="underline decoration-petal underline-offset-4 hover:text-white">
-                Try again
+                {copy.retry}
               </button>
             </p>
           )}
@@ -164,11 +187,11 @@ export function Wishes() {
           {status === "ready" && wishes.length > 0 && (
             <>
               <p className="eyebrow mb-10 text-center text-white/45">
-                {wishes.length} {wishes.length === 1 ? "wish" : "wishes"} planted so far
+                {copy.count(wishes.length)}
               </p>
-              <div className="columns-1 gap-6 pt-5 sm:columns-2 lg:columns-3 lg:gap-7">
+              <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 lg:gap-7">
                 {wishes.map((w, i) => (
-                  <WishCard key={w.id} wish={w} index={i} />
+                  <WishCard key={w.id} wish={w} index={i} locale={copy.dateLocale} />
                 ))}
               </div>
             </>

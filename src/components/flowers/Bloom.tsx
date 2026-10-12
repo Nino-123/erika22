@@ -368,6 +368,8 @@ export type BloomProps = {
   maxOpen?: number;
   /** "low" drops fine detail for tiny icons. */
   detail?: "high" | "low";
+  /** Soft halo behind the petals; turn off where the flower sits on text or cards. */
+  glow?: boolean;
   className?: string;
   style?: CSSProperties;
   id: string;
@@ -386,6 +388,7 @@ export function Bloom({
   squash = 0.8,
   maxOpen = 1,
   detail = "high",
+  glow = true,
   className,
   style,
   id,
@@ -495,7 +498,7 @@ export function Bloom({
       )}
 
       {/* soft warm light the flower sits in */}
-      <circle r={112} fill={`url(#${id}-glow)`} style={{ opacity: open ? 1 : 0.45, transition: `opacity ${duration}s ease ${delay}s` }} />
+      {glow && <circle r={112} fill={`url(#${id}-glow)`} style={{ opacity: open ? 1 : 0.45, transition: `opacity ${duration}s ease ${delay}s` }} />}
 
       <g
         style={{

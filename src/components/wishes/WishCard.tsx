@@ -17,53 +17,63 @@ function hash(s: string) {
   return Math.abs(h);
 }
 
-const dateFormat = new Intl.DateTimeFormat("en", { month: "long", day: "numeric" });
+const dateFormats = new Map<string, Intl.DateTimeFormat>();
+const formatDate = (iso: string, locale: string) => {
+  if (!dateFormats.has(locale)) dateFormats.set(locale, new Intl.DateTimeFormat(locale, { month: "long", day: "numeric" }));
+  return dateFormats.get(locale)!.format(new Date(iso));
+};
 
-export function WishCard({ wish, index }: { wish: PublicWish; index: number }) {
+export function WishCard({ wish, index, locale = "en" }: { wish: PublicWish; index: number; locale?: string }) {
   const reduced = useReducedMotion();
   const h = hash(wish.id);
   const tint = TINTS[h % TINTS.length];
   const tilt = ((h % 5) - 2) * 0.5;
 
   return (
-    <motion.article
-      className="glass relative mb-7 break-inside-avoid rounded-[22px] p-6 pt-8"
-      style={{ backgroundImage: `radial-gradient(120% 80% at 0% 0%, ${tint.glow}, transparent 60%), linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025))` }}
-      initial={{ opacity: 0, y: reduced ? 0 : 24, scale: reduced ? 1 : 0.97 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1, rotate: tilt }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: reduced ? 0.01 : 0.9, delay: reduced ? 0 : (index % 3) * 0.1, ease: [0.16, 1, 0.3, 1] }}
-    >
-      <div className="absolute -top-6 left-5 w-14">
-        <Bloom
-          id={`wish-${wish.id}`}
-          open
-          palette={tint.palette}
-          species={(["peony", "rose", "anemone"] as const)[h % 3]}
-          squash={0.85}
-          detail="low"
-          size="100%"
-          duration={0.01}
-        />
-      </div>
-
-      <p className="text-[1.06rem] leading-relaxed font-light whitespace-pre-line text-white/85 break-words">{wish.message}</p>
-
-      {wish.memory && (
-        <p className="mt-4 border-l-2 border-petal/50 pl-3 font-hand text-xl leading-snug text-petal/90 break-words">
-          {wish.memory}
-        </p>
-      )}
-
-      <footer className="mt-5 flex items-end justify-between gap-3">
-        <div className="min-w-0">
-          <p className="font-serif text-[1.5rem] leading-tight text-white italic break-words">— {wish.name}</p>
-          {wish.relationship && <p className="eyebrow mt-1 text-white/45 break-words">{wish.relationship}</p>}
+    // the outer padding holds the overhanging flower inside the column, so a
+    // card at the top of a column never has its flower pushed down onto the text
+    <div className="break-inside-avoid pt-7">
+      <motion.article
+        className="glass relative rounded-[22px] p-6 pt-12"
+        style={{ backgroundImage: `radial-gradient(120% 80% at 0% 0%, ${tint.glow}, transparent 60%), linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025))` }}
+        initial={{ opacity: 0, y: reduced ? 0 : 24, scale: reduced ? 1 : 0.97 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1, rotate: tilt }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: reduced ? 0.01 : 0.9, delay: reduced ? 0 : (index % 3) * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {/* sits on the card's top edge, clear of the message */}
+        <div className="pointer-events-none absolute -top-7 left-4 w-12">
+          <Bloom
+            id={`wish-${wish.id}`}
+            open
+            palette={tint.palette}
+            species={(["peony", "rose", "anemone"] as const)[h % 3]}
+            squash={0.85}
+            detail="low"
+            size="100%"
+            duration={0.01}
+            glow={false}
+          />
         </div>
-        <time className="shrink-0 text-xs text-white/40" dateTime={wish.created_at}>
-          {dateFormat.format(new Date(wish.created_at))}
-        </time>
-      </footer>
-    </motion.article>
+
+        <p className="text-[1.06rem] leading-relaxed font-light whitespace-pre-line text-white/85 break-words">{wish.message}</p>
+
+        {wish.memory && (
+          <p className="mt-4 border-l-2 border-petal/50 pl-3 font-hand text-xl leading-snug text-petal/90 break-words">
+            {wish.memory}
+          </p>
+        )}
+
+        <footer className="mt-5 flex items-end justify-between gap-3">
+          <div className="min-w-0">
+            <p className="font-serif text-[1.5rem] leading-tight text-white italic break-words">— {wish.name}</p>
+            {wish.relationship && <p className="eyebrow mt-1 text-white/45 break-words">{wish.relationship}</p>}
+          </div>
+          <time className="shrink-0 text-xs text-white/40" dateTime={wish.created_at}>
+            {formatDate(wish.created_at, locale)}
+          </time>
+        </footer>
+      </motion.article>
+    </div>
   );
 }

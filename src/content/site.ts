@@ -143,14 +143,7 @@ export const site = {
   },
 
   // ── 5 · Birthday wishes from her favourite people ──────────────────────────
-  wishes: {
-    eyebrow: "Chapter IV",
-    title: "Birthday Wishes From Her Favorite People",
-    intro:
-      "Every wish left here is a little flower planted in her birthday garden — one for each person who loves her.",
-    button: "Leave Her a Little Wish",
-    empty: "No wishes yet. Be the first to plant one.",
-  },
+  // (the Wishes chapter's words, in English and Indonesian, live in src/content/wishes.ts)
 
   // ── 6 · The ending ─────────────────────────────────────────────────────────
   finale: {

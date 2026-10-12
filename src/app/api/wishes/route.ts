@@ -123,15 +123,15 @@ export async function POST(req: NextRequest) {
   // Bots submit instantly; people take a moment to write.
   const elapsed = Number(body.elapsedMs);
   if (!Number.isFinite(elapsed) || elapsed < RATE.minFillMs) {
-    return json({ error: "That was very fast! Please take a moment and try again." }, 400);
+    return json({ error: "That was very fast! Please take a moment and try again.", code: "tooFast" }, 400);
   }
 
   const result = validateWish(body);
-  if (!result.ok) return json({ error: "Please check the highlighted fields.", fields: result.errors }, 422);
+  if (!result.ok) return json({ error: "Please check the highlighted fields.", fields: result.errors, codes: result.codes }, 422);
 
   const ipHash = hashIp(clientIp(req));
   if (memoryLimited(ipHash)) {
-    return json({ error: "You've planted a few wishes already — please wait a little while before adding another." }, 429);
+    return json({ error: "You've planted a few wishes already — please wait a little while before adding another.", code: "rateLimited" }, 429);
   }
 
   const since = (ms: number) => new Date(Date.now() - ms).toISOString();
@@ -146,7 +146,7 @@ export async function POST(req: NextRequest) {
     return json({ error: "Could not save your wish right now. Please try again soon." }, 500);
   }
   if ((tenMin.count ?? 0) >= RATE.perTenMinutes || (day.count ?? 0) >= RATE.perDay) {
-    return json({ error: "You've planted a few wishes already — please wait a little while before adding another." }, 429);
+    return json({ error: "You've planted a few wishes already — please wait a little while before adding another.", code: "rateLimited" }, 429);
   }
   if ((total.count ?? 0) >= RATE.maxTotal) {
     return json({ error: "The garden is full of wishes! New ones can't be added right now." }, 429);

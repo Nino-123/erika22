@@ -4,8 +4,9 @@ import { useId, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Flower2, Loader2 } from "lucide-react";
 import { LIMITS, validateWish, type PublicWish, type WishField } from "@/lib/wishes";
+import type { WishError, WishesCopy } from "@/content/wishes";
 
-type Errors = Partial<Record<WishField, string>>;
+type Errors = Partial<Record<WishField, WishError>>;
 
 const inputBase =
   "w-full rounded-2xl border bg-white/[0.04] px-4 py-3 text-base text-white placeholder:text-white/30 transition focus:border-petal/70 focus:bg-white/[0.07] focus:outline-none focus:ring-4 focus:ring-petal/15";
@@ -14,6 +15,7 @@ function Field({
   id,
   label,
   optional,
+  optionalLabel,
   error,
   count,
   max,
@@ -22,6 +24,7 @@ function Field({
   id: string;
   label: string;
   optional?: boolean;
+  optionalLabel?: string;
   error?: string;
   count?: number;
   max?: number;
@@ -32,7 +35,7 @@ function Field({
       <div className="mb-1.5 flex items-baseline justify-between gap-3">
         <label htmlFor={id} className="font-serif text-xl text-white italic">
           {label}
-          {optional && <span className="ml-2 font-sans text-xs text-white/40 not-italic">optional</span>}
+          {optional && <span className="ml-2 font-sans text-xs text-white/40 not-italic">{optionalLabel}</span>}
         </label>
         {max !== undefined && count !== undefined && (
           <span className={`text-xs tabular-nums ${count > max ? "text-petal" : "text-white/35"}`} aria-hidden>
@@ -51,9 +54,11 @@ function Field({
 }
 
 export function WishForm({
+  copy,
   disabled,
   onPlanted,
 }: {
+  copy: WishesCopy;
   disabled: boolean;
   onPlanted: (wish: PublicWish, pending: boolean) => void;
 }) {
@@ -62,7 +67,9 @@ export function WishForm({
   const startedAt = useRef<number | null>(null);
   const [values, setValues] = useState({ name: "", relationship: "", message: "", memory: "", website: "" });
   const [errors, setErrors] = useState<Errors>({});
-  const [formError, setFormError] = useState<string | null>(null);
+  // stored as codes so a message switches language along with everything else
+  const [formError, setFormError] = useState<WishError | "offline" | { text: string } | null>(null);
+  const f = copy.form;
   const [submitting, setSubmitting] = useState(false);
 
   const set = (field: keyof typeof values) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -77,8 +84,8 @@ export function WishForm({
 
     const check = validateWish(values);
     if (!check.ok) {
-      setErrors(check.errors);
-      const first = (Object.keys(check.errors) as WishField[])[0];
+      setErrors(check.codes);
+      const first = (Object.keys(check.codes) as WishField[])[0];
       document.getElementById(`${uid}-${first}`)?.focus();
       return;
     }
@@ -95,8 +102,10 @@ export function WishForm({
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        if (data.fields) setErrors(data.fields);
-        setFormError(data.error ?? "Something went wrong. Please try again.");
+        if (data.codes) setErrors(data.codes);
+        if (data.codes) setFormError("fields");
+        else if (data.code && data.code in copy.errors) setFormError(data.code as WishError);
+        else setFormError(data.error ? { text: data.error } : "generic");
         return;
       }
       setValues({ name: "", relationship: "", message: "", memory: "", website: "" });
@@ -104,7 +113,7 @@ export function WishForm({
       startedAt.current = null;
       onPlanted(data.wish, Boolean(data.pending));
     } catch {
-      setFormError("We couldn't reach the garden. Please check your connection and try again.");
+      setFormError("offline");
     } finally {
       setSubmitting(false);
     }
@@ -123,7 +132,7 @@ export function WishForm({
       aria-busy={submitting}
     >
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field id={`${uid}-name`} label="Your name" error={errors.name}>
+        <Field id={`${uid}-name`} label={f.name} error={errors.name && copy.errors[errors.name]}>
           <input
             id={`${uid}-name`}
             name="name"
@@ -134,11 +143,11 @@ export function WishForm({
             aria-invalid={!!errors.name}
             aria-describedby={describedBy("name")}
             className={`${inputBase} ${errors.name ? "border-rose" : "border-white/12"}`}
-            placeholder="e.g. Aunt Maria"
+            placeholder={f.namePlaceholder}
             disabled={disabled}
           />
         </Field>
-        <Field id={`${uid}-relationship`} label="How you know her" optional error={errors.relationship}>
+        <Field id={`${uid}-relationship`} label={f.relationship} optional optionalLabel={f.optional} error={errors.relationship && copy.errors[errors.relationship]}>
           <input
             id={`${uid}-relationship`}
             name="relationship"
@@ -148,7 +157,7 @@ export function WishForm({
             aria-invalid={!!errors.relationship}
             aria-describedby={describedBy("relationship")}
             className={`${inputBase} ${errors.relationship ? "border-rose" : "border-white/12"}`}
-            placeholder="best friend, sister, colleague…"
+            placeholder={f.relationshipPlaceholder}
             disabled={disabled}
           />
         </Field>
@@ -156,8 +165,8 @@ export function WishForm({
 
       <Field
         id={`${uid}-message`}
-        label="Your birthday wish"
-        error={errors.message}
+        label={f.message}
+        error={errors.message && copy.errors[errors.message]}
         count={values.message.length}
         max={LIMITS.message}
       >
@@ -171,16 +180,17 @@ export function WishForm({
           aria-invalid={!!errors.message}
           aria-describedby={describedBy("message")}
           className={`${inputBase} resize-y leading-relaxed ${errors.message ? "border-rose" : "border-white/12"}`}
-          placeholder="Write her something warm…"
+          placeholder={f.messagePlaceholder}
           disabled={disabled}
         />
       </Field>
 
       <Field
         id={`${uid}-memory`}
-        label="A small memory with her"
+        label={f.memory}
         optional
-        error={errors.memory}
+        optionalLabel={f.optional}
+        error={errors.memory && copy.errors[errors.memory]}
         count={values.memory.length}
         max={LIMITS.memory}
       >
@@ -194,7 +204,7 @@ export function WishForm({
           aria-invalid={!!errors.memory}
           aria-describedby={describedBy("memory")}
           className={`${inputBase} resize-y leading-relaxed ${errors.memory ? "border-rose" : "border-white/12"}`}
-          placeholder="That time we…"
+          placeholder={f.memoryPlaceholder}
           disabled={disabled}
         />
       </Field>
@@ -214,7 +224,7 @@ export function WishForm({
 
       {formError && (
         <p role="alert" className="rounded-2xl bg-rose/15 px-4 py-3 text-sm text-petal">
-          {formError}
+          {formError === "offline" ? f.offline : typeof formError === "string" ? copy.errors[formError] : formError.text}
         </p>
       )}
 
@@ -226,11 +236,11 @@ export function WishForm({
       >
         {submitting ? (
           <>
-            <Loader2 className="h-5 w-5 animate-spin" aria-hidden /> Planting your wish…
+            <Loader2 className="h-5 w-5 animate-spin" aria-hidden /> {f.submitting}
           </>
         ) : (
           <>
-            <Flower2 className="h-5 w-5" aria-hidden /> Plant this wish
+            <Flower2 className="h-5 w-5" aria-hidden /> {f.submit}
           </>
         )}
       </motion.button>

@@ -63,10 +63,17 @@ body {
   color: #fff;
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-petal);
-  outline-offset: 3px;
-  border-radius: 9999px;
+/* In the base layer so an element's own rounded-* shape always wins —
+   otherwise text boxes turn into pills while you type in them. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-petal);
+    outline-offset: 3px;
+    border-radius: 9999px;
+  }
+  :is(input, textarea, select):focus-visible {
+    border-radius: 1rem;
+  }
 }
 
 /* ── Film grain ──────────────────────────────────────────────────────────── */
