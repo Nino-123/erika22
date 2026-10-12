@@ -55,7 +55,7 @@ export const letterBook: Record<Lang, LetterContent> = {
       {
         title: "To the Birthday Girl",
         paragraphs: [
-          "Happy birthday, my love.",
+          "Happy birthday, Queen.",
           "Today is a celebration of you — of the person you are, the life you've lived, and all the beautiful things that are still waiting for you.",
           "I wanted to give you something a little different this year. Something you could return to whenever you need a reminder of how special you are, not just today, but on the ordinary days in between, too.",
           "So, here's a little garden made just for you, filled with flowers, memories, and words I hope will make you smile.",
@@ -125,7 +125,7 @@ export const letterBook: Record<Lang, LetterContent> = {
       {
         title: "Untuk Perempuan yang Berulang Tahun",
         paragraphs: [
-          "Selamat ulang tahun, sayangku.",
+          "Selamat ulang tahun, Ratu.",
           "Hari ini adalah hari untuk merayakan dirimu — seseorang yang telah melalui begitu banyak hal, menjalani perjalanan hidupnya sendiri, dan masih memiliki begitu banyak hal indah yang menanti di depan.",
           "Tahun ini, aku ingin memberikan sesuatu yang sedikit berbeda. Sesuatu yang bisa kamu kunjungi kembali kapan pun kamu membutuhkannya, sebagai pengingat betapa berharganya dirimu, bukan hanya hari ini, tetapi juga pada hari-hari biasa di antaranya.",
           "Jadi, aku membuat sebuah taman kecil khusus untukmu, dipenuhi bunga, kenangan, dan kata-kata yang semoga bisa membuatmu tersenyum.",

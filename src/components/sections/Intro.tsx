@@ -64,7 +64,7 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
 
       {/* editorial corner labels */}
       <div className="eyebrow pointer-events-none absolute inset-x-6 top-6 flex justify-between text-white/45 sm:inset-x-10 sm:top-8">
-        <span>Nº {site.birthday.dayNumber}</span>
+        <span>©Nok {site.birthday.dayNumber}</span>
         <span>{site.birthday.shortLabel}</span>
       </div>
 

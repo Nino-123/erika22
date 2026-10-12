@@ -73,12 +73,12 @@ export const story = {
     heading: "And this is only the beginning.",
     paragraphs: [
       "Happy 22nd birthday, my love.",
-      "If I could give you anything, it would be the chance to see yourself through my eyes — to see how much beauty, warmth, and goodness you bring into this world.",
-      "I hope this new chapter brings you more reasons to smile, more dreams to chase, and more moments that remind you how loved you are.",
-      "And as you keep growing into the person you are meant to be, I hope you never forget that every version of you deserves to be celebrated.",
+      "If We could give you anything, it would be the chance to see yourself through Our eyes — to see how much beauty, warmth, and goodness you bring into this world.",
+      "We hope this new chapter brings you more reasons to smile, more dreams to chase, and more moments that remind you how loved you are.",
+      "And as you keep growing into the person you are meant to be, We hope you never forget that every version of you deserves to be celebrated.",
       "Here's to 22, and to all the beautiful pages still waiting to be written.",
     ],
-    closing: "With all my love, always.",
+    closing: "With all our love, always.",
     /** Optional replacement artwork for the portrait on this page. */
     image: undefined as string | undefined,
   },

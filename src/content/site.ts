@@ -46,7 +46,7 @@ export const site = {
   },
 
   /** Your name, used to sign the letter. */
-  from: "[Your Name]",
+  from: "Loved ones",
 
   birthday: {
     /** Shown in small editorial labels around the site. */
@@ -104,7 +104,7 @@ export const site = {
         ],
       },
       {
-        title: "Little Things I Love About You",
+        title: "Little Things We Love About You",
         description: "[A line about the small things.]",
         photos: [
           { src: "/photos/placeholder-5.svg", alt: "Placeholder photo", caption: "[a little thing I love]", aspect: "square" },
@@ -123,7 +123,7 @@ export const site = {
         ],
       },
       {
-        title: "Moments I Want to Remember",
+        title: "Moments We Want to Remember",
         description: "[A line about the future, or the moments you never want to forget.]",
         photos: [
           { src: "/photos/placeholder-4.svg", alt: "Placeholder photo", caption: "[a moment to remember]", aspect: "portrait" },
