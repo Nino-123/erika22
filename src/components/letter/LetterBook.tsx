@@ -4,7 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProp
 import { animate, motion, useMotionValue, useReducedMotion, useTransform, type MotionValue } from "motion/react";
 import { ArrowLeft, ArrowRight, BookOpen, Flower2 } from "lucide-react";
 import { site } from "@/content/site";
-import { letterBook, ROMAN, type Lang, type LetterContent } from "@/content/letter";
+import { letterBook, letterSignOff, ROMAN, type Lang, type LetterContent } from "@/content/letter";
 import { Bloom } from "@/components/flowers/Bloom";
 import { burstPetals } from "@/components/flowers/PetalCanvas";
 import { BotanicalStudy, CornerSprig } from "./Botanical";
@@ -143,6 +143,31 @@ function Verso({ t, index }: { t: LetterContent; index: number }) {
   );
 }
 
+/** The closing phrase, a hand-written signature and a small "Loved Ones" label. */
+function SignOff({ closing, lang }: { closing: string; lang: Lang }) {
+  const { signature, signatureStyle, showLovedOnes, lovedOnes, accent } = letterSignOff;
+  return (
+    <div className="flex flex-col items-center" style={{ color: accent }}>
+      <p className="mt-[0.2em] text-[1.2em] italic">{closing}</p>
+      {signature && (
+        <p
+          className={signatureStyle === "handwritten" ? "mt-[0.15em] font-hand text-[2em] leading-[0.95]" : "mt-[0.2em] font-serif text-[1.6em] italic"}
+          translate="no"
+        >
+          {signature}
+        </p>
+      )}
+      {showLovedOnes && lovedOnes[lang] && (
+        <p className="mt-[0.45em] flex items-center gap-[0.5em] font-sans text-[0.62em] font-medium tracking-[0.28em] uppercase opacity-70">
+          <span aria-hidden className="h-px w-[1.6em] bg-current opacity-50" />
+          {lovedOnes[lang]}
+          <span aria-hidden className="h-px w-[1.6em] bg-current opacity-50" />
+        </p>
+      )}
+    </div>
+  );
+}
+
 function ReadingPage({
   t,
   index,
@@ -164,7 +189,6 @@ function ReadingPage({
   const page = t.pages[index];
   const last = index === total - 1;
   const reduced = useReducedMotion();
-  const signature = site.from.startsWith("[") ? null : site.from;
   useFitText(ref, [lang, pw, index]);
   const body: CSSProperties = { fontSize: "calc(var(--fit, 1) * var(--base, 3.4) * 1cqw)" };
 
@@ -227,8 +251,7 @@ function ReadingPage({
               <div className="w-[3.2em]" aria-hidden>
                 <Bloom id={`letter-end-${uid}`} open={revealed} species="rose" palette="blush" size="100%" squash={0.82} delay={0.6} duration={2.4} />
               </div>
-              <p className="mt-[0.2em] text-[1.25em] text-rose-deep italic">{t.closing}</p>
-              {signature && <p className="font-hand text-[1.8em] leading-none text-rose-deep">{signature}</p>}
+              <SignOff closing={t.closing} lang={lang} />
             </motion.div>
           )}
         </div>

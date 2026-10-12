@@ -184,3 +184,29 @@ export const letterBook: Record<Lang, LetterContent> = {
 };
 
 export const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ *  ✍️  THE SIGN-OFF ON THE LAST PAGE OF THE BOOK
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ *  Edit this block to change how the letter is signed. It's separate from the
+ *  letter text above, so changing it never touches the pages themselves.
+ *
+ *  The closing phrase ("With all my love, always. ♡") is per language and
+ *  lives in each language's `closing` above.
+ */
+export const letterSignOff = {
+  /** Your signature, written by hand. The same in every language. */
+  signature: "N-jp",
+  /** How the signature is written: "handwritten" (Caveat), "serif" (elegant italic). */
+  signatureStyle: "handwritten" as "handwritten" | "serif",
+  /** The small label under the signature. Set `showLovedOnes` to false to hide it. */
+  showLovedOnes: true,
+  lovedOnes: {
+    en: "Loved Ones",
+    id: "Orang-Orang Tersayang",
+  } satisfies Record<Lang, string>,
+  /** Colour of the closing phrase, signature and label (any CSS colour). */
+  accent: "#a9466a",
+};

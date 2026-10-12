@@ -9,6 +9,7 @@ import { burstPetals } from "@/components/flowers/PetalCanvas";
 import { BlurText } from "@/components/ui/BlurText";
 import { NightSky } from "@/components/ui/NightSky";
 import { DUR, EASE_IN, EASE_OUT } from "@/lib/motion";
+import type { PortalOrigin } from "@/components/flowers/PortalBloom";
 
 type Stage = "bud" | "blooming" | "bloomed";
 
@@ -17,7 +18,15 @@ type Stage = "bud" | "blooming" | "bloomed";
  * Tapping it makes it bloom and reveals the birthday message, then a button
  * opens the rest of the garden.
  */
-export function Intro({ onEnter }: { onEnter: () => void }) {
+export function Intro({
+  onEnter,
+  portal = false,
+}: {
+  /** Called with the flower's centre and radius so the portal can grow from it. */
+  onEnter: (origin: PortalOrigin) => void;
+  /** True while the flower-portal transition is playing. */
+  portal?: boolean;
+}) {
   const [stage, setStage] = useState<Stage>("bud");
   const reduced = useReducedMotion();
   // Once she has entered, never block taps while the fade-out finishes.
@@ -50,6 +59,16 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
 
   const opened = stage !== "bud";
 
+  const enter = () => {
+    if (portal) return; // one transition at a time
+    const r = budRef.current?.getBoundingClientRect();
+    onEnter(
+      r
+        ? { x: r.left + r.width / 2, y: r.top + r.height / 2, r: Math.max(80, r.width * 0.42) }
+        : { x: window.innerWidth / 2, y: window.innerHeight * 0.4, r: 120 },
+    );
+  };
+
   return (
     <motion.div
       role="dialog"
@@ -57,7 +76,7 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
       aria-label="A birthday surprise"
       className={`fixed inset-0 z-[70] flex flex-col items-center justify-center overflow-hidden bg-night px-6 ${present ? "" : "pointer-events-none"}`}
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 1.04, filter: "blur(12px)" }}
+      exit={portal ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, scale: 1.04, filter: "blur(12px)" }}
       transition={{ duration: reduced ? 0.01 : DUR.slow, ease: EASE_IN }}
     >
       <NightSky glowAt="50% 46%" glow="rgba(244,170,192,0.22)" />
@@ -113,8 +132,8 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
                 centre it while closed, then let it settle as it opens */}
             <motion.div
               initial={false}
-              animate={opened ? { scale: 1, y: "0%" } : { scale: 1.32, y: "16%" }}
-              transition={{ duration: reduced ? 0.01 : 2.4, ease: EASE_OUT }}
+              animate={portal ? { scale: 2.1, y: "0%" } : opened ? { scale: 1, y: "0%" } : { scale: 1.32, y: "16%" }}
+              transition={{ duration: reduced ? 0.01 : portal ? 1.1 : 2.4, ease: portal ? [0.45, 0, 0.2, 1] : EASE_OUT }}
             >
               <Bloom
                 id="intro-bloom"
@@ -165,7 +184,8 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
               <motion.button
                 ref={enterRef}
                 type="button"
-                onClick={onEnter}
+                onClick={enter}
+                disabled={portal}
                 className="btn-light mt-7"
                 initial={{ opacity: 0, y: reduced ? 0 : 12 }}
                 animate={{ opacity: 1, y: 0 }}
