@@ -186,6 +186,60 @@ body {
   animation: sway var(--sway-duration, 6s) ease-in-out var(--sway-delay, 0s) infinite;
 }
 
+/* ── Garden floor (finale) ───────────────────────────────────────────────── */
+/* grass leans by skewing from its roots, so the bases never move */
+@keyframes grass-lean {
+  0%, 100% { transform: skewX(calc(var(--lean, 2deg) * -1)); }
+  50% { transform: skewX(var(--lean, 2deg)); }
+}
+
+.grass-lean {
+  transform-origin: 50% 100%;
+  will-change: transform;
+  animation: grass-lean var(--lean-dur, 8s) ease-in-out var(--lean-delay, 0s) infinite;
+}
+
+@keyframes firefly {
+  0%, 100% { opacity: 0.12; transform: translate3d(0, 0, 0) scale(0.8); }
+  30% { opacity: 0.95; }
+  50% { opacity: 0.55; transform: translate3d(var(--fx, 8px), var(--fy, -12px), 0) scale(1); }
+  72% { opacity: 0.9; }
+}
+
+.firefly {
+  background: radial-gradient(circle, rgba(255, 232, 170, 0.95) 0, rgba(255, 196, 120, 0.35) 32%, transparent 70%);
+  animation: firefly var(--fly-dur, 7s) ease-in-out var(--fly-delay, 0s) infinite;
+}
+
+/* a petal drifts down, rests among the grass for a while, then fades */
+@keyframes petal-settle {
+  0% { opacity: 0; transform: translate3d(var(--settle-dx, -40px), -300px, 0) rotate(0deg); }
+  6% { opacity: 0.9; }
+  25% { transform: translate3d(calc(var(--settle-dx, -40px) * -0.6), -190px, 0) rotate(calc(var(--settle-rot, 200deg) * 0.4)); }
+  45% { transform: translate3d(calc(var(--settle-dx, -40px) * 0.3), -80px, 0) rotate(calc(var(--settle-rot, 200deg) * 0.75)); }
+  58% { opacity: 0.9; transform: translate3d(0, 0, 0) rotate(var(--settle-rot, 200deg)) scaleY(0.6); }
+  90% { opacity: 0.85; transform: translate3d(0, 0, 0) rotate(var(--settle-rot, 200deg)) scaleY(0.6); }
+  100% { opacity: 0; transform: translate3d(0, 0, 0) rotate(var(--settle-rot, 200deg)) scaleY(0.6); }
+}
+
+.petal-settle {
+  opacity: 0;
+  animation: petal-settle var(--settle-dur, 20s) ease-in-out var(--settle-delay, 0s) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grass-lean,
+  .firefly {
+    animation: none !important;
+  }
+  .firefly {
+    opacity: 0.6;
+  }
+  .petal-settle {
+    display: none;
+  }
+}
+
 .glow-bloom {
   filter: drop-shadow(0 0 18px rgba(244, 182, 198, 0.35));
 }

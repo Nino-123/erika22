@@ -22,6 +22,8 @@ export type BedFlower = {
   depth?: 0 | 1 | 2;
   /** Hide on small screens to keep phones light and uncluttered. */
   desktopOnly?: boolean;
+  /** Px above the bed's ground line where this stem is rooted (further back = higher). */
+  rise?: number;
 };
 
 const DEPTH_STYLE: Record<0 | 1 | 2, CSSProperties> = {
@@ -38,10 +40,13 @@ const DEPTH_STYLE: Record<0 | 1 | 2, CSSProperties> = {
 export function FlowerBed({
   flowers,
   idPrefix,
+  ground = 0,
   className = "",
 }: {
   flowers: BedFlower[];
   idPrefix: string;
+  /** Px from the bottom of the bed to the soil line the stems root into. */
+  ground?: number;
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -59,8 +64,8 @@ export function FlowerBed({
         return (
           <div
             key={i}
-            className={`absolute bottom-0 -translate-x-1/2 ${f.desktopOnly ? "hidden md:block" : ""}`}
-            style={{ left: `${f.left}%` }}
+            className={`absolute -translate-x-1/2 ${f.desktopOnly ? "hidden md:block" : ""}`}
+            style={{ left: `${f.left}%`, bottom: ground + (f.rise ?? 0) }}
           >
             <div
               className="sway"
