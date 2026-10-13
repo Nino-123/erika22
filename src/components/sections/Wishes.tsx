@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { CloudOff, Sprout, X } from "lucide-react";
+import { CloudOff, Heart, Sprout, X } from "lucide-react";
 import { site } from "@/content/site";
-import { wishesCopy } from "@/content/wishes";
+import { pinnedWishes, wishesCopy } from "@/content/wishes";
 import type { Lang } from "@/content/letter";
 import type { PublicWish } from "@/lib/wishes";
 import { WishCard } from "@/components/wishes/WishCard";
@@ -55,6 +55,9 @@ export function Wishes() {
   };
 
   const unconfigured = status === "unconfigured";
+  // Mom & Dad's wishes first, in the order listed; everyone else below
+  const pinned = pinnedWishes.map((id) => wishes.find((w) => w.id === id)).filter((w): w is PublicWish => !!w);
+  const others = wishes.filter((w) => !pinnedWishes.includes(w.id));
 
   return (
     <section
@@ -189,8 +192,21 @@ export function Wishes() {
               <p className="eyebrow mb-10 text-center text-white/45">
                 {copy.count(wishes.length)}
               </p>
+              {pinned.length > 0 && (
+                <section aria-label={copy.pinnedLabel} className="mx-auto mb-12 max-w-4xl">
+                  <p className="mb-2 flex items-center justify-center gap-2 font-serif text-xl text-gold/90 italic">
+                    <Heart className="h-4 w-4 fill-current" aria-hidden />
+                    {copy.pinnedLabel}
+                  </p>
+                  <div className={`grid gap-6 ${pinned.length > 1 ? "sm:grid-cols-2" : "mx-auto max-w-xl"}`}>
+                    {pinned.map((w, i) => (
+                      <WishCard key={w.id} wish={w} index={i} locale={copy.dateLocale} pinned={copy.pinnedBadge} />
+                    ))}
+                  </div>
+                </section>
+              )}
               <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 lg:gap-7">
-                {wishes.map((w, i) => (
+                {others.map((w, i) => (
                   <WishCard key={w.id} wish={w} index={i} locale={copy.dateLocale} />
                 ))}
               </div>

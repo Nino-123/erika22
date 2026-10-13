@@ -15,6 +15,8 @@ export const wishesCopy = {
     buttonAgain: "Plant another wish",
     empty: "No wishes yet. Be the first to plant one.",
     count: (n: number) => `${n} ${n === 1 ? "wish" : "wishes"} planted so far`,
+    pinnedLabel: "From Mom & Dad",
+    pinnedBadge: "Pinned",
     loading: "Loading wishes",
     loadError: "The wishes are hiding right now.",
     retry: "Try again",
@@ -65,6 +67,8 @@ export const wishesCopy = {
     buttonAgain: "Tanam ucapan lagi",
     empty: "Belum ada ucapan. Jadilah yang pertama menanamnya.",
     count: (n: number) => `${n} ucapan telah ditanam`,
+    pinnedLabel: "Dari Ayah & Bunda",
+    pinnedBadge: "Disematkan",
     loading: "Memuat ucapan",
     loadError: "Ucapan-ucapannya sedang bersembunyi.",
     retry: "Coba lagi",
@@ -107,6 +111,15 @@ export const wishesCopy = {
     },
   },
 } satisfies Record<Lang, unknown>;
+
+/**
+ * Wishes shown first, in their own row, in this order. Use the wish's id
+ * (visible at /api/wishes, or in Supabase). Remove an id to unpin it.
+ */
+export const pinnedWishes: string[] = [
+  "e9fcf9d6-e2a4-4f0c-a950-08d3cf22f66a", // Bunda Lolly
+  "6c61cf0b-9348-48f3-b2b5-e4db5418efce", // Abi papah ayah
+];
 
 export type WishesCopy = (typeof wishesCopy)["en"];
 export type WishError = keyof WishesCopy["errors"];
