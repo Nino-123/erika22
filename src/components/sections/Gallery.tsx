@@ -5,12 +5,13 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { site } from "@/content/site";
 import { Polaroid } from "@/components/gallery/Polaroid";
 import { Lightbox } from "@/components/gallery/Lightbox";
+import { QualitiesGarden } from "@/components/gallery/QualitiesGarden";
 import { DreamyBackdrop } from "@/components/ui/DreamyBackdrop";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function Gallery() {
   const { gallery } = site;
-  const albums = gallery.albums.filter((a) => a.photos.length > 0);
+  const albums = gallery.albums.filter((a) => a.photos.length > 0 || a.garden);
   const [active, setActive] = useState(0);
   const [lightbox, setLightbox] = useState<number | null>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -99,17 +100,23 @@ export function Gallery() {
               exit={{ opacity: 0 }}
               transition={{ duration: reduced ? 0.01 : 0.45 }}
             >
-              {album.description && (
-                <p className="mx-auto mb-12 max-w-lg text-center font-serif text-2xl text-white/60 italic">
-                  {album.description}
-                </p>
+              {album.garden ? (
+                <QualitiesGarden />
+              ) : (
+                <>
+                  {album.description && (
+                    <p className="mx-auto mb-12 max-w-lg text-center font-serif text-2xl text-white/60 italic">
+                      {album.description}
+                    </p>
+                  )}
+                  {/* phones: one column, gently zig-zagging like a scrapbook page */}
+                  <div className="columns-1 gap-8 sm:columns-2 lg:columns-3 lg:gap-10 [&>*:nth-child(odd)]:mr-[10%] [&>*:nth-child(even)]:ml-[10%] sm:[&>*]:mx-0!">
+                    {album.photos.map((photo, i) => (
+                      <Polaroid key={`${active}-${i}`} photo={photo} index={i} onOpen={() => setLightbox(i)} />
+                    ))}
+                  </div>
+                </>
               )}
-              {/* phones: one column, gently zig-zagging like a scrapbook page */}
-              <div className="columns-1 gap-8 sm:columns-2 lg:columns-3 lg:gap-10 [&>*:nth-child(odd)]:mr-[10%] [&>*:nth-child(even)]:ml-[10%] sm:[&>*]:mx-0!">
-                {album.photos.map((photo, i) => (
-                  <Polaroid key={`${active}-${i}`} photo={photo} index={i} onOpen={() => setLightbox(i)} />
-                ))}
-              </div>
             </motion.div>
           </AnimatePresence>
         </div>

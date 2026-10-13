@@ -34,6 +34,8 @@ export type Album = {
   title: string;
   description: string;
   photos: Photo[];
+  /** Show the garden of qualities (src/content/qualities.ts) instead of photos. */
+  garden?: boolean;
 };
 
 export const site = {
@@ -84,7 +86,7 @@ export const site = {
   gallery: {
     eyebrow: "Chapter II",
     title: "Our Memories",
-    intro: "A small scrapbook of you, of us, and of the moments I keep close.",
+    intro: "A small scrapbook of you, of us, and of the moments we all hold close.",
     /**
      * Albums appear as tabs. Rename them, reorder them, add or remove photos,
      * or delete a whole album — it all just works.
@@ -95,7 +97,7 @@ export const site = {
     albums: [
       {
         title: "Her Beautiful Moments",
-        description: "[A line about why you love these photos of her.]",
+        description: "Snapshots of your brightest smiles, your gentle soul, and the countless ways you effortlessly light up every room you walk into.",
         photos: [
           { src: "/photos/her moment3.jpeg", alt: "Placeholder photo", caption: "Mahadasyat", aspect: "portrait" },
           { src: "/photos/her moment4.jpeg", alt: "Placeholder photo", caption: "Hasil menyalon, Stunning!", aspect: "landscape" },
@@ -113,42 +115,45 @@ export const site = {
       },
       {
         title: "Little Things We Love About You",
-        description: "[A line about the small things.]",
-        photos: [
-          { src: "/photos/placeholder-5.svg", alt: "Placeholder photo", caption: "[a little thing I love]", aspect: "square" },
-          { src: "/photos/placeholder-6.svg", alt: "Placeholder photo", caption: "[a little thing I love]", aspect: "portrait" },
-          { src: "/photos/placeholder-7.svg", alt: "Placeholder photo", caption: "[a little thing I love]", aspect: "landscape" },
-        ],
+        description: "",
+        /** No photos here: a little garden of flowers, each holding a note.
+         *  The flowers and their words live in src/content/qualities.ts */
+        garden: true,
+        photos: [],
       },
       {
         title: "Our Memories",
-        description: "[A line about the two of you.]",
+        description: "The journeys we've shared, the laughs that filled the room, and the unforgettable moments we are so lucky to have lived with you.",
         photos: [
-          { src: "/photos/our memories1.jpeg", alt: "Placeholder photo", caption: "[where were we here?]", aspect: "landscape" },
-          { src: "/photos/our memories2.jpeg", alt: "Placeholder photo", caption: "[where were we here?]", aspect: "portrait" },
-          { src: "/photos/our memories3.jpeg", alt: "Placeholder photo", caption: "[where were we here?]", aspect: "square" },
-          { src: "/photos/our memories4.jpeg", alt: "Placeholder photo", caption: "[where were we here?]", aspect: "portrait" },
-          { src: "/photos/our memories5.jpeg", alt: "Placeholder photo", caption: "[where were we here?]", aspect: "portrait" },
-          { src: "/photos/our memories6.jpeg", alt: "Placeholder photo", caption: "[where were we here?]", aspect: "portrait" },
-          { src: "/photos/our memories7.jpeg", alt: "Placeholder photo", caption: "[where were we here?]", aspect: "portrait" },
-          { src: "/photos/our memories8.jpeg", alt: "Placeholder photo", caption: "[where were we here?]", aspect: "portrait" },
-          { src: "/photos/our memories9.jpeg", alt: "Placeholder photo", caption: "[where were we here?]", aspect: "portrait" },
-          { src: "/photos/our memories10.jpeg", alt: "Placeholder photo", caption: "[where were we here?]", aspect: "portrait" },
-          { src: "/photos/our memories12.jpeg", alt: "Placeholder photo", caption: "[where were we here?]", aspect: "portrait" },
+          { src: "/photos/our memories1.jpeg", alt: "Placeholder photo", caption: "Always making everywhere brighter", aspect: "landscape" },
+          { src: "/photos/our memories2.jpeg", alt: "Placeholder photo", caption: "Endless laughter together", aspect: "portrait" },
+          { src: "/photos/our memories3.jpeg", alt: "Placeholder photo", caption: "One of our favourite memories", aspect: "square" },
+          { src: "/photos/our memories4.jpeg", alt: "Placeholder photo", caption: "Days we never wanted to end", aspect: "portrait" },
+          { src: "/photos/our memories5.jpeg", alt: "Placeholder photo", caption: "The best company", aspect: "portrait" },
+          { src: "/photos/our memories6.jpeg", alt: "Placeholder photo", caption: "Pure, unfiltered joy", aspect: "portrait" },
+          { src: "/photos/our memories7.jpeg", alt: "Placeholder photo", caption: "Precious moments with you", aspect: "portrait" },
+          { src: "/photos/our memories8.jpeg", alt: "Placeholder photo", caption: "Golden days", aspect: "portrait" },
+          { src: "/photos/our memories9.jpeg", alt: "Placeholder photo", caption: "Smiles that say everything", aspect: "portrait" },
+          { src: "/photos/our memories10.jpeg", alt: "Placeholder photo", caption: "Surrounded by happiness", aspect: "portrait" },
+          { src: "/photos/our memories12.jpeg", alt: "Placeholder photo", caption: "Always a great time with you", aspect: "portrait" },
+          { src: "/photos/our memories17.jpeg", alt: "Placeholder photo", caption: "Moments that mean the world", aspect: "portrait" },
+          { src: "/photos/our memories18.jpeg", alt: "Placeholder photo", caption: "Memories to keep forever", aspect: "portrait" },
+          { src: "/photos/our memories19.jpeg", alt: "Placeholder photo", caption: "Pure happiness in one frame", aspect: "portrait" },
+          { src: "/photos/our memories20.jpeg", alt: "Placeholder photo", caption: "With you, every moment counts", aspect: "portrait" },
         ],
       },
       {
         title: "Moments We Want to Remember",
-        description: "[A line about the future, or the moments you never want to forget.]",
+        description: "Treasured chapters that time will never wash away, and all the beautiful milestones still waiting ahead for you.",
         photos: [
-          { src: "/photos/want to remember1.jpeg", alt: "Placeholder photo", caption: "Cutest photo i took before heading back!", aspect: "portrait" },
-          { src: "/photos/want to remember2.jpeg", alt: "Placeholder photo", caption: "[a moment to remember]", aspect: "portrait" },
-          { src: "/photos/want to remember3.jpeg", alt: "Placeholder photo", caption: "[a moment to remember]", aspect: "portrait" },
-          { src: "/photos/want to remember4.jpeg", alt: "Placeholder photo", caption: "[a moment to remember]", aspect: "portrait" },
-          { src: "/photos/want to remember5.jpeg", alt: "Placeholder photo", caption: "[a moment to remember]", aspect: "portrait" },
-          { src: "/photos/want to remember6.jpeg", alt: "Placeholder photo", caption: "[a moment to remember]", aspect: "portrait" },
-          { src: "/photos/want to remember7.jpeg", alt: "Placeholder photo", caption: "[a moment to remember]", aspect: "portrait" },
-          { src: "/photos/want to remember8.jpeg", alt: "Placeholder photo", caption: "[a moment to remember]", aspect: "portrait" },
+          { src: "/photos/want to remember1.jpeg", alt: "Placeholder photo", caption: "Cutest photo i took before heading", aspect: "portrait" },
+          { src: "/photos/want to remember2.jpeg", alt: "Placeholder photo", caption: "A moment etched in time", aspect: "portrait" },
+          { src: "/photos/want to remember3.jpeg", alt: "Placeholder photo", caption: "Treasured times with you", aspect: "portrait" },
+          { src: "/photos/want to remember4.jpeg", alt: "Placeholder photo", caption: "Days we'll always look back on", aspect: "portrait" },
+          { src: "/photos/want to remember5.jpeg", alt: "Placeholder photo", caption: "Too special to forget", aspect: "portrait" },
+          { src: "/photos/want to remember6.jpeg", alt: "Placeholder photo", caption: "Forever cherished", aspect: "portrait" },
+          { src: "/photos/want to remember7.jpeg", alt: "Placeholder photo", caption: "A memory to hold onto", aspect: "portrait" },
+          { src: "/photos/want to remember8.jpeg", alt: "Placeholder photo", caption: "Core memory unlocked", aspect: "portrait" },
         ],
       },
     ] satisfies Album[] as Album[],
@@ -157,7 +162,7 @@ export const site = {
   // ── 4 · Your birthday letter ───────────────────────────────────────────────
   letter: {
     eyebrow: "Chapter III",
-    title: "A Letter, From Me to You",
+    title: "A Letter, From Us to You",
     // The letter itself (all five pages, in English and Bahasa Indonesia)
     // lives in src/content/letter.ts
   },
