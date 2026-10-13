@@ -125,6 +125,8 @@ export const site = {
         title: "Our Memories",
         description: "The journeys we've shared, the laughs that filled the room, and the unforgettable moments we are so lucky to have lived with you.",
         photos: [
+          { src: "/photos/our memories 01.jpeg", alt: "Placeholder photo", caption: "-jaki", aspect: "landscape" },
+          { src: "/photos/our memories 02.jpeg", alt: "Placeholder photo", caption: "-jaki", aspect: "landscape" },
           { src: "/photos/our memories1.jpeg", alt: "Placeholder photo", caption: "Always making everywhere brighter", aspect: "landscape" },
           { src: "/photos/our memories2.jpeg", alt: "Placeholder photo", caption: "Endless laughter together", aspect: "portrait" },
           { src: "/photos/our memories3.jpeg", alt: "Placeholder photo", caption: "One of our favourite memories", aspect: "square" },
@@ -146,6 +148,7 @@ export const site = {
         title: "Moments We Want to Remember",
         description: "Treasured chapters that time will never wash away, and all the beautiful milestones still waiting ahead for you.",
         photos: [
+          { src: "/photos/want to remember01.jpeg", alt: "Placeholder photo", caption: "-jaki", aspect: "portrait" },
           { src: "/photos/want to remember1.jpeg", alt: "Placeholder photo", caption: "Cutest photo i took before heading", aspect: "portrait" },
           { src: "/photos/want to remember2.jpeg", alt: "Placeholder photo", caption: "A moment etched in time", aspect: "portrait" },
           { src: "/photos/want to remember3.jpeg", alt: "Placeholder photo", caption: "Treasured times with you", aspect: "portrait" },
