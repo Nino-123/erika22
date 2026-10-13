@@ -246,7 +246,50 @@ body {
   animation: seam-drift 10s linear infinite;
 }
 
+/* last page of Her Story: a few sparkles, one drifting petal, a soft glow */
+@keyframes letter-twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.75) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1) rotate(20deg); }
+}
+
+.letter-sparkle {
+  transform-origin: center;
+  animation: letter-twinkle 3.6s ease-in-out infinite;
+}
+
+@keyframes letter-petal {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0deg); }
+  12% { opacity: 0.85; }
+  50% { transform: translate3d(-28px, 120px, 0) rotate(160deg); }
+  85% { opacity: 0.7; }
+  100% { opacity: 0; transform: translate3d(-8px, 240px, 0) rotate(320deg); }
+}
+
+.letter-petal {
+  opacity: 0;
+  animation: letter-petal 14s ease-in-out infinite;
+}
+
+.letter-glow {
+  background: radial-gradient(closest-side, rgba(255, 226, 176, 0.5), transparent);
+  animation: glow-pulse 5s ease-in-out infinite;
+}
+
+@keyframes wings {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(0.82); }
+}
+
+.butterfly-wings {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wings 4.5s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .letter-petal {
+    display: none;
+  }
   .seam-glow {
     animation: none !important;
   }
