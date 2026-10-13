@@ -200,10 +200,10 @@ body {
 }
 
 @keyframes firefly {
-  0%, 100% { opacity: 0.12; transform: translate3d(0, 0, 0) scale(0.8); }
-  30% { opacity: 0.95; }
-  50% { opacity: 0.55; transform: translate3d(var(--fx, 8px), var(--fy, -12px), 0) scale(1); }
-  72% { opacity: 0.9; }
+  0%, 100% { opacity: calc(var(--fly-o, 1) * 0.1); transform: translate3d(0, 0, 0) scale(0.8); }
+  30% { opacity: calc(var(--fly-o, 1) * 0.95); }
+  50% { opacity: calc(var(--fly-o, 1) * 0.5); transform: translate3d(var(--fx, 8px), var(--fy, -12px), 0) scale(1); }
+  72% { opacity: calc(var(--fly-o, 1) * 0.9); }
 }
 
 .firefly {
@@ -233,7 +233,7 @@ body {
     animation: none !important;
   }
   .firefly {
-    opacity: 0.6;
+    opacity: calc(var(--fly-o, 1) * 0.6);
   }
   .petal-settle {
     display: none;

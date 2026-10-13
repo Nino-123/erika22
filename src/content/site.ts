@@ -174,6 +174,9 @@ export const site = {
     replayButton: "Back to the beginning",
     memoriesButton: "Revisit our memories",
     footer: "made with love, just for you",
+    /** The little glowing flower hidden by the garden path. */
+    secret: "A little reminder that the world is more beautiful with you in it.",
+    secretLabel: "A little flower by the path",
   },
 
   // ── Background music ───────────────────────────────────────────────────────

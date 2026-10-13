@@ -4,6 +4,7 @@ import { ArrowUpRight, RotateCcw } from "lucide-react";
 import { site } from "@/content/site";
 import { FlowerBed, type BedFlower } from "@/components/flowers/FlowerBed";
 import { GardenFloor, GROUND } from "@/components/flowers/GardenFloor";
+import { SecretFlower } from "@/components/flowers/SecretFlower";
 import { BlurText } from "@/components/ui/BlurText";
 import { NightSky } from "@/components/ui/NightSky";
 import { Reveal } from "@/components/ui/Reveal";
@@ -32,7 +33,7 @@ export function Finale({ onReplay }: { onReplay: () => void }) {
   const { finale, her, birthday } = site;
 
   return (
-    <section id="forever" className="relative flex min-h-[100svh] flex-col overflow-hidden bg-night">
+    <section id="forever" className="relative flex min-h-[100svh] flex-col overflow-clip bg-night">
       {/* rose dusk on the horizon */}
       <NightSky glowAt="50% 100%" glow="rgba(240,150,170,0.42)" grass={false} className="fade-top" />
       <div
@@ -46,6 +47,10 @@ export function Finale({ onReplay }: { onReplay: () => void }) {
       <GardenFloor layer="back" className="z-[5] -translate-y-9 sm:translate-y-0" />
       <FlowerBed flowers={FIELD} idPrefix="field" ground={GROUND} className="z-[6] h-full -translate-y-9 sm:translate-y-0" />
       <GardenFloor layer="front" className="z-[7] -translate-y-9 sm:translate-y-0" />
+      {/* a little surprise by the path — above the content so it can be tapped */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[11] -translate-y-9 sm:translate-y-0">
+        <SecretFlower message={finale.secret} label={finale.secretLabel} style={{ left: "57%", bottom: GROUND + 4 }} />
+      </div>
 
       <div className="relative flex flex-1 flex-col">
         <div className="relative z-10 flex flex-1 flex-col items-center px-6 pt-32 pb-[34svh] text-center sm:pb-[40svh]">
