@@ -38,28 +38,28 @@ export const story = {
 
   stages: [
     {
-      label: "Chapter I-A",
+      label: "Chapter A",
       title: "Once Upon a Time",
       kicker: "the beginning",
       text: "Once upon a time, a little girl came into this world. She had no idea how many beautiful things, unexpected adventures, and people who would love her were waiting ahead.",
       alt: "A pencil sketch of a baby girl in a soft headscarf, wrapped in a blanket beneath a crescent moon.",
     },
     {
-      label: "Chapter I-B",
+      label: "Chapter B",
       title: "Little Wonders",
       kicker: "the curious years",
       text: "The world was still so big, and every little thing held a little bit of magic. There were new things to discover, little joys to collect, and a whole world waiting to be explored.",
       alt: "A pencil sketch of a little girl in a headscarf and a rose-coloured dress, holding a flower among butterflies.",
     },
     {
-      label: "Chapter I-C",
+      label: "Chapter C",
       title: "Finding Herself",
       kicker: "the growing years",
       text: "Then came the years of growing, changing, learning, and slowly discovering who she wanted to be. Not every page was easy, but every page became part of the person she was becoming.",
       alt: "A pencil sketch of a teenage girl with dark shoulder-length hair and a flower clip, holding a notebook to her chest.",
     },
     {
-      label: "Chapter I-D",
+      label: "Chapter D",
       title: "Becoming Her",
       kicker: "twenty-two",
       text: "And now, here you are — twenty-two years of little beginnings, growing pains, beautiful moments, and becoming. You are no longer the little girl at the beginning of this story, but every version of you has helped create the person you are today.",
@@ -72,7 +72,7 @@ export const story = {
     label: "The last page (for now)",
     heading: "And this is only the beginning.",
     paragraphs: [
-      "Happy 22nd birthday, my love.",
+      "Happy 22nd birthday, Erika <3",
       "If We could give you anything, it would be the chance to see yourself through Our eyes — to see how much beauty, warmth, and goodness you bring into this world.",
       "We hope this new chapter brings you more reasons to smile, more dreams to chase, and more moments that remind you how loved you are.",
       "And as you keep growing into the person you are meant to be, We hope you never forget that every version of you deserves to be celebrated.",

@@ -141,7 +141,7 @@ export const site = {
         title: "Moments We Want to Remember",
         description: "[A line about the future, or the moments you never want to forget.]",
         photos: [
-          { src: "/photos/want to remember1.jpeg", alt: "Placeholder photo", caption: "[a moment to remember]", aspect: "portrait" },
+          { src: "/photos/want to remember1.jpeg", alt: "Placeholder photo", caption: "Cutest photo i took before heading back!", aspect: "portrait" },
           { src: "/photos/want to remember2.jpeg", alt: "Placeholder photo", caption: "[a moment to remember]", aspect: "portrait" },
           { src: "/photos/want to remember3.jpeg", alt: "Placeholder photo", caption: "[a moment to remember]", aspect: "portrait" },
           { src: "/photos/want to remember4.jpeg", alt: "Placeholder photo", caption: "[a moment to remember]", aspect: "portrait" },
