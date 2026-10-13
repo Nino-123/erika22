@@ -33,7 +33,7 @@ export function Gallery() {
   return (
     <section
       id="memories"
-      className="relative overflow-hidden bg-night px-5 pt-24 pb-24 sm:px-8 sm:pt-32"
+      className="relative overflow-hidden bg-night px-5 pt-16 pb-16 sm:px-8 sm:pt-24 sm:pb-24"
     >
       <DreamyBackdrop
         blobs={[

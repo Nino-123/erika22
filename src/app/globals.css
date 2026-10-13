@@ -227,7 +227,32 @@ body {
   animation: petal-settle var(--settle-dur, 20s) ease-in-out var(--settle-delay, 0s) infinite;
 }
 
+/* chapter dividers: a few blossoms glow, a few petals drift past the vines */
+.seam-glow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: glow-pulse 5.5s ease-in-out infinite;
+}
+
+@keyframes seam-drift {
+  0% { opacity: 0; transform: translate(var(--x), var(--y)) rotate(0deg); }
+  15% { opacity: 0.75; }
+  80% { opacity: 0.6; }
+  100% { opacity: 0; transform: translate(calc(var(--x) + 110px), calc(var(--y) + 46px)) rotate(220deg); }
+}
+
+.seam-petal {
+  opacity: 0;
+  animation: seam-drift 10s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .seam-glow {
+    animation: none !important;
+  }
+  .seam-petal {
+    display: none;
+  }
   .grass-lean,
   .firefly {
     animation: none !important;

@@ -59,7 +59,7 @@ export function Wishes() {
   return (
     <section
       id="wishes"
-      className="relative overflow-hidden bg-night px-4 pt-24 pb-28 sm:px-8 sm:pt-32"
+      className="relative overflow-hidden bg-night px-4 pt-16 pb-20 sm:px-8 sm:pt-24"
     >
       <DreamyBackdrop
         blobs={[

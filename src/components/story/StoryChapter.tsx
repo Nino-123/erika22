@@ -247,7 +247,7 @@ function Bridge() {
   }, [inView, reduced]);
 
   return (
-    <div ref={ref} className="relative px-6 pt-10 pb-24 text-center md:pb-32">
+    <div ref={ref} className="relative px-6 pt-10 pb-14 text-center md:pb-20">
       <div aria-hidden className="mx-auto mb-6 flex w-fit items-end gap-3">
         <Bloom id="bridge-a" open={inView} species="rose" palette="blush" size="3.2rem" squash={0.7} tilt={-12} />
         <Bloom id="bridge-b" open={inView} species="peony" palette="peach" size="4.2rem" squash={0.75} delay={0.3} />
@@ -260,7 +260,7 @@ function Bridge() {
       />
       <motion.div
         aria-hidden
-        className="mx-auto mt-10 h-24 w-px bg-gradient-to-b from-petal/60 to-transparent"
+        className="mx-auto mt-8 h-16 w-px bg-gradient-to-b from-petal/60 to-transparent"
         initial={{ scaleY: 0, opacity: 0 }}
         animate={inView ? { scaleY: 1, opacity: 1 } : undefined}
         style={{ transformOrigin: "top" }}

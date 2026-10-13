@@ -11,7 +11,7 @@ export function Letter() {
   const { letter } = site;
 
   return (
-    <section id="letter" className="relative overflow-hidden bg-night px-4 pt-24 pb-28 sm:px-8 sm:pt-32 sm:pb-36">
+    <section id="letter" className="relative overflow-hidden bg-night px-4 pt-16 pb-20 sm:px-8 sm:pt-24 sm:pb-24">
       <DreamyBackdrop
         blobs={[
           { color: "rgba(246,199,176,0.13)", top: "20%", left: "40%", size: "55vmax" },
