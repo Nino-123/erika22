@@ -5,24 +5,27 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { ArrowUpRight, Play } from "lucide-react";
 import { site } from "@/content/site";
 import { FlowerBed, type BedFlower } from "@/components/flowers/FlowerBed";
+import { GardenFloor, GROUND } from "@/components/flowers/GardenFloor";
 import { BlurText } from "@/components/ui/BlurText";
 import { NightSky } from "@/components/ui/NightSky";
 import { DUR, EASE_OUT } from "@/lib/motion";
 
+// Every stem roots into the garden floor at GROUND; `rise` sets it further
+// back in the meadow (higher up), so the bases step back in depth.
 const BED: BedFlower[] = [
   // far away — small, dim, soft focus
-  { left: 22, size: "clamp(3rem, 6vw, 5rem)", stem: 130, palette: "cream", species: "anemone", tilt: -10, squash: 0.65, depth: 0, desktopOnly: true },
-  { left: 31, size: "clamp(2.6rem, 5vw, 4.2rem)", stem: 90, palette: "blush", species: "rose", tilt: 8, squash: 0.7, maxOpen: 0.3, depth: 0 },
-  { left: 69, size: "clamp(2.8rem, 5.5vw, 4.6rem)", stem: 110, palette: "peach", species: "anemone", tilt: -6, squash: 0.62, depth: 0 },
-  { left: 79, size: "clamp(3rem, 6vw, 5rem)", stem: 150, palette: "blush", species: "peony", tilt: 12, squash: 0.7, depth: 0, desktopOnly: true },
+  { left: 22, size: "clamp(3rem, 6vw, 5rem)", stem: 150, palette: "cream", species: "anemone", tilt: -10, squash: 0.65, depth: 0, desktopOnly: true, rise: 26 },
+  { left: 31, size: "clamp(2.6rem, 5vw, 4.2rem)", stem: 110, palette: "blush", species: "rose", tilt: 8, squash: 0.7, maxOpen: 0.3, depth: 0, rise: 22 },
+  { left: 69, size: "clamp(2.8rem, 5.5vw, 4.6rem)", stem: 130, palette: "peach", species: "anemone", tilt: -6, squash: 0.62, depth: 0, rise: 24 },
+  { left: 79, size: "clamp(3rem, 6vw, 5rem)", stem: 160, palette: "blush", species: "peony", tilt: 12, squash: 0.7, depth: 0, desktopOnly: true, rise: 28 },
   // middle distance, including buds that haven't opened yet
-  { left: 4, size: "clamp(5rem, 10vw, 8.5rem)", stem: 240, palette: "peach", species: "rose", tilt: -16, squash: 0.72, depth: 1, desktopOnly: true },
-  { left: 25, size: "clamp(3.4rem, 7vw, 5.6rem)", stem: 210, palette: "rose", species: "peony", tilt: -4, squash: 0.8, maxOpen: 0.22, depth: 1 },
-  { left: 75, size: "clamp(3.4rem, 7vw, 5.6rem)", stem: 240, palette: "blush", species: "rose", tilt: 6, squash: 0.8, maxOpen: 0.3, depth: 1, desktopOnly: true },
-  { left: 96, size: "clamp(5rem, 10vw, 8.5rem)", stem: 260, palette: "cream", species: "peony", tilt: 14, squash: 0.7, depth: 1, desktopOnly: true },
+  { left: 4, size: "clamp(5rem, 10vw, 8.5rem)", stem: 240, palette: "peach", species: "rose", tilt: -16, squash: 0.72, depth: 1, desktopOnly: true, rise: 8 },
+  { left: 25, size: "clamp(3.4rem, 7vw, 5.6rem)", stem: 220, palette: "rose", species: "peony", tilt: -4, squash: 0.8, maxOpen: 0.22, depth: 1, rise: 12 },
+  { left: 75, size: "clamp(3.4rem, 7vw, 5.6rem)", stem: 240, palette: "blush", species: "rose", tilt: 6, squash: 0.8, maxOpen: 0.3, depth: 1, desktopOnly: true, rise: 10 },
+  { left: 96, size: "clamp(5rem, 10vw, 8.5rem)", stem: 250, palette: "cream", species: "peony", tilt: 14, squash: 0.7, depth: 1, desktopOnly: true, rise: 6 },
   // close to the viewer
-  { left: 12, size: "clamp(7rem, 15vw, 12.5rem)", stem: 380, palette: "blush", species: "peony", tilt: -8, squash: 0.74, depth: 2 },
-  { left: 88, size: "clamp(6.5rem, 14vw, 11.5rem)", stem: 330, palette: "rose", species: "rose", tilt: 9, squash: 0.7, depth: 2 },
+  { left: 12, size: "clamp(7rem, 15vw, 12.5rem)", stem: 340, palette: "blush", species: "peony", tilt: -8, squash: 0.74, depth: 2, rise: -8 },
+  { left: 88, size: "clamp(6.5rem, 14vw, 11.5rem)", stem: 300, palette: "rose", species: "rose", tilt: 9, squash: 0.7, depth: 2, rise: -4 },
 ];
 
 export function GardenHero({ entered }: { entered: boolean }) {
@@ -44,10 +47,10 @@ export function GardenHero({ entered }: { entered: boolean }) {
     <section
       id="garden"
       ref={ref}
-      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-night px-5 pt-28 pb-[30svh]"
+      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-clip bg-night px-5 pt-28 pb-[30svh]"
     >
       <motion.div style={{ y: skyY }} className="absolute inset-0">
-        <NightSky glowAt="50% 70%" />
+        <NightSky glowAt="50% 70%" grass={false} />
       </motion.div>
 
       <motion.div style={{ y: contentY, opacity: contentOpacity }} className="relative z-10 flex max-w-4xl flex-col items-center text-center">
@@ -79,7 +82,14 @@ export function GardenHero({ entered }: { entered: boolean }) {
         </motion.div>
       </motion.div>
 
-      {entered && <FlowerBed flowers={BED} idPrefix="hero" className="z-[6] h-full" />}
+      {/* the garden, back to front: meadow + wildflower banks → flowers → soil,
+          stones, low plants and grass. Mirrored so it isn't a copy of the finale. */}
+      <GardenFloor layer="back" id="hero" path={false} groves={false} banks className="z-[5] -translate-y-12" />
+      {entered && <FlowerBed flowers={BED} idPrefix="hero" ground={GROUND} className="z-[6] h-full -translate-y-12" />}
+      <GardenFloor layer="front" id="hero" path={false} className="z-[7] -translate-y-12 -scale-x-100" />
+      {/* the garden sits a little above the section's edge and its soil fades
+          into the night, so it flows into Chapter I with no hard line */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-[8] h-36 bg-gradient-to-b from-transparent via-night/75 to-night" />
     </section>
   );
 }

@@ -14,6 +14,7 @@ import { Finale } from "@/components/sections/Finale";
 import { Nav } from "@/components/ui/Nav";
 import { MusicToggle } from "@/components/ui/MusicToggle";
 import { FloralSeam } from "@/components/ui/FloralSeam";
+import { GardenSpill } from "@/components/flowers/GardenSpill";
 
 export function GardenExperience() {
   const [entered, setEntered] = useState(false);
@@ -62,6 +63,7 @@ export function GardenExperience() {
 
       <main inert={!entered} aria-hidden={!entered}>
         <GardenHero entered={entered} />
+        <GardenSpill />
         <StoryChapter />
         <FloralSeam variant="foliage" />
         <Gallery />

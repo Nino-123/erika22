@@ -44,9 +44,9 @@ export function Finale({ onReplay }: { onReplay: () => void }) {
       {/* the garden, back to front: meadow → flowers → soil, plants and grass.
           It runs on behind the footer, so the stems grow out of real ground. */}
       {/* on phones the footer stacks into three lines, so the garden is lifted to stay in view */}
-      <GardenFloor layer="back" className="z-[5] -translate-y-9 sm:translate-y-0" />
+      <GardenFloor layer="back" id="finale" className="z-[5] -translate-y-9 sm:translate-y-0" />
       <FlowerBed flowers={FIELD} idPrefix="field" ground={GROUND} className="z-[6] h-full -translate-y-9 sm:translate-y-0" />
-      <GardenFloor layer="front" className="z-[7] -translate-y-9 sm:translate-y-0" />
+      <GardenFloor layer="front" id="finale" className="z-[7] -translate-y-9 sm:translate-y-0" />
       {/* a little surprise by the path — above the content so it can be tapped */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[11] -translate-y-9 sm:translate-y-0">
         <SecretFlower message={finale.secret} label={finale.secretLabel} style={{ left: "57%", bottom: GROUND + 4 }} />

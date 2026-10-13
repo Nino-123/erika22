@@ -146,6 +146,72 @@ function edgeGrove(seed: number) {
 
 const GROVES = [edgeGrove(51), edgeGrove(67)];
 
+/** Five round petals around (x, y), as path data. */
+function blossom(x: number, y: number, rad: number, turn: number) {
+  let d = "";
+  for (let k = 0; k < 5; k++) {
+    const a = turn + (k / 5) * Math.PI * 2;
+    const px = x + Math.cos(a) * rad;
+    const py = y + Math.sin(a) * rad * 0.8;
+    const pr = rad * 0.62;
+    d += `M${r1(px - pr)} ${r1(py)} a${r1(pr)} ${r1(pr)} 0 1 0 ${r1(pr * 2)} 0 a${r1(pr)} ${r1(pr)} 0 1 0 ${r1(-pr * 2)} 0 `;
+  }
+  return d;
+}
+
+/**
+ * A bank of tall grass and wildflowers that climbs toward the outer edge
+ * (x = 0) and thins out toward the centre, so the edges frame the scene.
+ */
+function wildBank(seed: number) {
+  const r = seeded(seed);
+  const H = 300;
+  let blades = "";
+  for (let i = 0; i < 190; i++) {
+    const x = Math.pow(r(), 1.25) * 520;
+    const edge = Math.pow(1 - x / 520, 1.6);
+    const h = 26 + edge * 200 * (0.45 + r() * 0.75);
+    const lean = (r() - 0.5) * h * 0.5 + h * 0.12;
+    const w = 2 + r() * 4;
+    blades +=
+      `M${r1(x)} ${H} Q${r1(x + lean * 0.3)} ${r1(H - h * 0.6)} ${r1(x + lean + w * 0.3)} ${r1(H - h)} ` +
+      `Q${r1(x + w + lean * 0.35)} ${r1(H - h * 0.55)} ${r1(x + w)} ${H}Z `;
+  }
+  let stems = "";
+  let pink = "";
+  let white = "";
+  let lavender = "";
+  let centres = "";
+  for (let i = 0; i < 44; i++) {
+    const x = Math.pow(r(), 1.4) * 500 + 6;
+    const edge = Math.pow(1 - x / 520, 1.3);
+    const h = 30 + edge * 190 * (0.4 + r() * 0.7);
+    const lean = (r() - 0.4) * 14;
+    const tx = x + lean;
+    const ty = H - h;
+    stems += `M${r1(x)} ${H} Q${r1(x + lean * 0.3)} ${r1(H - h * 0.5)} ${r1(tx)} ${r1(ty)} `;
+    const kind = r();
+    if (kind < 0.25) {
+      // a lavender spike
+      for (let j = 0; j < 6; j++) {
+        const yy = ty + j * 4.2;
+        const rad = 2.4 - j * 0.15;
+        lavender += `M${r1(tx - rad)} ${r1(yy)} a${r1(rad)} ${r1(rad * 1.3)} 0 1 0 ${r1(rad * 2)} 0 a${r1(rad)} ${r1(rad * 1.3)} 0 1 0 ${r1(-rad * 2)} 0 `;
+      }
+    } else {
+      const rad = 3 + r() * 3.4;
+      const d = blossom(tx, ty, rad, r() * 2);
+      if (kind < 0.62) pink += d;
+      else white += d;
+      const c = rad * 0.42;
+      centres += `M${r1(tx - c)} ${r1(ty)} a${r1(c)} ${r1(c)} 0 1 0 ${r1(c * 2)} 0 a${r1(c)} ${r1(c)} 0 1 0 ${r1(-c * 2)} 0 `;
+    }
+  }
+  return { blades, stems, pink, white, lavender, centres };
+}
+
+const BANKS = [wildBank(71), wildBank(83)];
+
 // Geometry is built once at module load (deterministic → SSR-safe).
 const H_BACK = 300;
 const MEADOW_FAR = ridge(5, 168, 22, H_BACK);
@@ -519,12 +585,32 @@ function Firefly({ fly }: { fly: Fly }) {
 
 /* ── layers ──────────────────────────────────────────────────────────────── */
 
-export function GardenFloor({ layer, className = "" }: { layer: "back" | "front"; className?: string }) {
+export function GardenFloor({
+  layer,
+  id = "floor",
+  path = true,
+  groves = true,
+  banks = false,
+  className = "",
+}: {
+  layer: "back" | "front";
+  /** Prefix for SVG gradient ids — give each garden on the page its own. */
+  id?: string;
+  /** The winding stepping-stone path at the centre. */
+  path?: boolean;
+  /** Tree and bush silhouettes at the far edges. */
+  groves?: boolean;
+  /** Tall wildflower banks rising at the left and right edges. */
+  banks?: boolean;
+  className?: string;
+}) {
+  const u = (name: string) => `${id}-${name}`;
   if (layer === "back") {
     return (
       <div aria-hidden className={`pointer-events-none absolute inset-x-0 bottom-0 overflow-clip ${className}`} style={{ height: 560 }}>
         {/* groves framing the left and right edges; the centre stays open */}
-        {GROVES.map((g, side) => (
+        {groves &&
+          GROVES.map((g, side) => (
           <svg
             key={side}
             viewBox="0 0 400 440"
@@ -537,25 +623,25 @@ export function GardenFloor({ layer, className = "" }: { layer: "back" | "front"
             }}
           >
             <defs>
-              <linearGradient id={`grove-far-${side}`} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="440">
+              <linearGradient id={u(`grove-far-${side}`)} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="440">
                 <stop offset="0" stopColor="#3a1d2c" />
                 <stop offset="1" stopColor="#1a0d14" />
               </linearGradient>
-              <linearGradient id={`grove-mid-${side}`} gradientUnits="userSpaceOnUse" x1="0" y1="140" x2="0" y2="440">
+              <linearGradient id={u(`grove-mid-${side}`)} gradientUnits="userSpaceOnUse" x1="0" y1="140" x2="0" y2="440">
                 <stop offset="0" stopColor="#2a1520" />
                 <stop offset="1" stopColor="#120a0e" />
               </linearGradient>
             </defs>
-            <g fill={`url(#grove-far-${side})`} opacity="0.55">
+            <g fill={`url(#${u(`grove-far-${side}`)})`} opacity="0.55">
               <path d={g.far.trunk.body} />
-              <path d={g.far.trunk.branches} stroke={`url(#grove-far-${side})`} strokeWidth="5" strokeLinecap="round" fill="none" />
+              <path d={g.far.trunk.branches} stroke={`url(#${u(`grove-far-${side}`)})`} strokeWidth="5" strokeLinecap="round" fill="none" />
               {g.far.crown.map(([x, y, rad], i) => (
                 <circle key={i} cx={x} cy={y} r={rad} />
               ))}
             </g>
-            <g fill={`url(#grove-mid-${side})`} opacity="0.85">
+            <g fill={`url(#${u(`grove-mid-${side}`)})`} opacity="0.85">
               <path d={g.mid.trunk.body} />
-              <path d={g.mid.trunk.branches} stroke={`url(#grove-mid-${side})`} strokeWidth="3.5" strokeLinecap="round" fill="none" />
+              <path d={g.mid.trunk.branches} stroke={`url(#${u(`grove-mid-${side}`)})`} strokeWidth="3.5" strokeLinecap="round" fill="none" />
               {g.mid.crown.map(([x, y, rad], i) => (
                 <circle key={i} cx={x} cy={y} r={rad} />
               ))}
@@ -566,41 +652,74 @@ export function GardenFloor({ layer, className = "" }: { layer: "back" | "front"
               ))}
             </g>
           </svg>
-        ))}
+          ))}
 
         <Strip height={H_BACK}>
           <defs>
-            <linearGradient id="meadow-far" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id={u("meadow-far")} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0.3" stopColor="#3a1a2a" stopOpacity="0" />
               <stop offset="0.55" stopColor="#2a1320" stopOpacity="0.7" />
               <stop offset="1" stopColor="#0d080b" />
             </linearGradient>
-            <linearGradient id="meadow-near" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id={u("meadow-near")} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0.55" stopColor="#1f1218" stopOpacity="0.6" />
               <stop offset="0.8" stopColor="#140b10" />
               <stop offset="1" stopColor="#0b0709" />
             </linearGradient>
-            <linearGradient id="grass-far" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id={u("grass-far")} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0.45" stopColor="#5d4a52" stopOpacity="0.7" />
               <stop offset="0.75" stopColor="#24201f" />
               <stop offset="1" stopColor="#0e0a0c" />
             </linearGradient>
           </defs>
           {/* haze sitting on the horizon */}
-          <path d={MEADOW_FAR} fill="url(#meadow-far)" />
+          <path d={MEADOW_FAR} fill={`url(#${u("meadow-far")})`} />
           <path d={FAR_GRASS} fill="#2a1a22" opacity="0.8" />
           <g opacity="0.8">
             <path d={FAR_FLOWERS.stems} stroke="#3a2530" strokeWidth="1" fill="none" />
             <path d={FAR_FLOWERS.heads} fill="#8a5268" />
           </g>
-          <path d={MEADOW_NEAR} fill="url(#meadow-near)" />
-          <path d={BACK_GRASS} fill="url(#grass-far)" />
+          <path d={MEADOW_NEAR} fill={`url(#${u("meadow-near")})`} />
+          <path d={BACK_GRASS} fill={`url(#${u("grass-far")})`} />
         </Strip>
 
         {/* the far end of the path, fading into the meadow */}
-        {PATH_FAR.map((s, i) => (
-          <PathStone key={i} stone={s} />
-        ))}
+        {path && PATH_FAR.map((s, i) => <PathStone key={i} stone={s} />)}
+
+        {/* wildflower banks climbing up both edges, behind the big flowers */}
+        {banks &&
+          BANKS.map((b, side) => (
+            <div
+              key={`bank${side}`}
+              className="absolute"
+              style={{
+                bottom: GROUND - 34,
+                width: "clamp(170px, 34vw, 560px)",
+                [side ? "right" : "left"]: 0,
+                transform: side ? "scaleX(-1)" : undefined,
+              }}
+            >
+              <svg
+                viewBox="0 0 520 300"
+                className="grass-lean block h-auto w-full"
+                style={{ "--lean": "1deg", "--lean-dur": `${11 + side * 3}s`, "--lean-delay": `${-side * 4}s` } as CSSProperties}
+              >
+                <defs>
+                  <linearGradient id={u(`bank-${side}`)} gradientUnits="userSpaceOnUse" x1="0" y1="40" x2="0" y2="300">
+                    <stop offset="0" stopColor="#6d7a5f" />
+                    <stop offset="0.45" stopColor="#2e3a28" />
+                    <stop offset="1" stopColor="#0a0c09" />
+                  </linearGradient>
+                </defs>
+                <path d={b.blades} fill={`url(#${u(`bank-${side}`)})`} />
+                <path d={b.stems} stroke="#3f5038" strokeWidth="0.8" fill="none" />
+                <path d={b.lavender} fill="#a48cc0" opacity="0.85" />
+                <path d={b.pink} fill="#e89ab2" opacity="0.9" />
+                <path d={b.white} fill="#f1e7e4" opacity="0.9" />
+                <path d={b.centres} fill="#e9bf5c" />
+              </svg>
+            </div>
+          ))}
         {FIREFLIES_FAR.map((f, i) => (
           <Firefly key={i} fly={f} />
         ))}
@@ -616,36 +735,36 @@ export function GardenFloor({ layer, className = "" }: { layer: "back" | "front"
       {/* meadow mound + its grass, in front of the stems */}
       <Strip height={H_FRONT}>
         <defs>
-          <linearGradient id="mound" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={u("mound")} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#21171c" />
             <stop offset="0.5" stopColor="#140d11" />
             <stop offset="1" stopColor="#0b0709" />
           </linearGradient>
-          <linearGradient id="mound-grass" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={u("mound-grass")} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#66745a" />
             <stop offset="0.5" stopColor="#2a3626" />
             <stop offset="1" stopColor="#100f0c" />
           </linearGradient>
         </defs>
-        <path d={MOUND} fill="url(#mound)" />
-        <path d={MOUND_GRASS} fill="url(#mound-grass)" />
+        <path d={MOUND} fill={`url(#${u("mound")})`} />
+        <path d={MOUND_GRASS} fill={`url(#${u("mound-grass")})`} />
       </Strip>
 
       {/* soil, with moss along its edge and a faint rose rim of horizon light */}
       <Strip height={H_FRONT}>
         <defs>
-          <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={u("soil")} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#2a1a1f" />
             <stop offset="0.35" stopColor="#170e12" />
             <stop offset="1" stopColor="#070405" />
           </linearGradient>
-          <linearGradient id="moss" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={u("moss")} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#56684a" stopOpacity="0.85" />
             <stop offset="1" stopColor="#233021" stopOpacity="0" />
           </linearGradient>
         </defs>
-        <path d={SOIL} fill="url(#soil)" />
-        <path d={MOSS} fill="url(#moss)" opacity="0.7" />
+        <path d={SOIL} fill={`url(#${u("soil")})`} />
+        <path d={MOSS} fill={`url(#${u("moss")})`} opacity="0.7" />
       </Strip>
 
       {/* irregular moss patches the grass parts around */}
@@ -664,9 +783,7 @@ export function GardenFloor({ layer, className = "" }: { layer: "back" | "front"
       ))}
 
       {/* the stepping-stone path, winding in from the front */}
-      {PATH_NEAR.map((s, i) => (
-        <PathStone key={`path${i}`} stone={s} />
-      ))}
+      {path && PATH_NEAR.map((s, i) => <PathStone key={`path${i}`} stone={s} />)}
 
       {STONES.map((s, i) => (
         <Placed key={`stone${i}`} spot={s}>
@@ -734,14 +851,14 @@ export function GardenFloor({ layer, className = "" }: { layer: "back" | "front"
           }
         >
           <defs>
-            <linearGradient id={`front-grass-${i}`} x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id={u(`front-grass-${i}`)} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor={["#7d8a6c", "#66765a", "#55644b"][i]} />
               <stop offset="0.35" stopColor={["#3e4d36", "#33412d", "#2a3626"][i]} />
               <stop offset="0.7" stopColor="#141b12" />
               <stop offset="1" stopColor="#060805" />
             </linearGradient>
           </defs>
-          <path d={d} fill={`url(#front-grass-${i})`} />
+          <path d={d} fill={`url(#${u(`front-grass-${i}`)})`} />
         </Strip>
       ))}
 
